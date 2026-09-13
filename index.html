@@ -66,6 +66,12 @@
     font-size:16px;
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
+    /* Long unbroken German compound words (e.g. "Vorsorgeuntersuchungen")
+       don't fit narrow phone widths and would otherwise force the whole
+       page wider than the viewport, causing horizontal scroll and letting
+       the unstyled html background show through at the edge. */
+    overflow-wrap:break-word;
+    word-break:break-word;
   }
   h1,h2,h3{
     font-family:Georgia, "Times New Roman", "Noto Serif", serif;
@@ -342,9 +348,12 @@
     nav.primary .cta{display:none;}
     .menu-toggle{display:block;}
     .hero{padding-block:32px 28px;}
-    .hero-grid{grid-template-columns:1fr;}
+    /* minmax(0,1fr), not plain 1fr: a bare 1fr track still won't shrink
+       below the column's content min-width, which was pushing the whole
+       page wider than the viewport on phones. */
+    .hero-grid{grid-template-columns:minmax(0,1fr);}
     .depth-rule{display:none;}
-    .contact-card{grid-template-columns:1fr;}
+    .contact-card{grid-template-columns:minmax(0,1fr);}
 
     .mobile-bar{
       display:flex;
