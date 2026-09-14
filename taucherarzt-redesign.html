@@ -166,10 +166,7 @@
   .brand{display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--ink);}
   .brand img{
     width:38px; height:38px; border-radius:10px; object-fit:cover;
-    /* The logo photo is a dark underwater shot; without a contrasting ring
-       it can disappear against the translucent, blurred header background
-       on mobile when dark hero content scrolls underneath it. */
-    box-shadow:0 0 0 2px var(--surface-raised), var(--shadow-1);
+    box-shadow:var(--shadow-1);
   }
   .brand-text{display:flex; flex-direction:column; line-height:1.15;}
   .brand-text strong{font-family:var(--font-display); font-size:1.08rem; font-weight:600;}
