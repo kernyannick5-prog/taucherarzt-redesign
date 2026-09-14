@@ -414,9 +414,14 @@
 
   /* ---------- Qualification rows stack below 700px ---------- */
   @media (max-width:700px){
-    .qual-row{flex-direction:column; align-items:flex-start; gap:10px;}
+    .qual-row{flex-direction:column; align-items:flex-start; gap:8px; padding-block:16px;}
     .qual-row:nth-child(even) .qual-num, .qual-row:nth-child(even) .qual-body{order:0;}
-    .qual-num{font-size:2.2rem; min-width:auto;}
+    .qual-num{font-size:1.8rem; min-width:auto;}
+    /* .qual-body's flex-basis:260px is a min-WIDTH on desktop's row axis,
+       but once .qual-row stacks to flex-direction:column here, the same
+       flex-basis becomes a min-HEIGHT instead, forcing ~260px of empty
+       space under every short entry. */
+    .qual-body{flex:1 1 auto;}
   }
 
   @media (max-width:600px){
