@@ -151,8 +151,11 @@
      drawer, rather than a small dropdown panel. */
   .rail{
     position:sticky; top:0; z-index:50;
-    background:color-mix(in srgb, var(--surface-raised) 92%, transparent);
-    backdrop-filter:blur(10px);
+    /* Solid, not translucent/blurred: a backdrop-filter here would create a
+       new containing block for the fixed-position mobile nav drawer inside
+       it, collapsing the drawer to this header's own (tiny) height instead
+       of the full viewport - i.e. it silently breaks the mobile menu. */
+    background:var(--surface-raised);
     border-bottom:1px solid var(--surface-line);
   }
   .rail-head{
@@ -423,9 +426,6 @@
   /* ---------- Mobile layout (<900px): top bar + full-screen drawer ---------- */
   @media (max-width:899px){
     body{padding-bottom:calc(72px + env(safe-area-inset-bottom));}
-    /* More opaque than the desktop sidebar so the logo photo stays
-       readable against whatever scrolls underneath the sticky top bar. */
-    .rail{background:color-mix(in srgb, var(--surface-raised) 97%, transparent);}
     .mobile-bar{
       display:flex;
       position:fixed; left:0; right:0; bottom:0; z-index:60;
