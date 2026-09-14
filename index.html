@@ -76,10 +76,15 @@
     line-height:1.65;
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
-    /* Long unbroken German compound words don't fit narrow phone widths and
-       would otherwise force the page wider than the viewport. */
+    /* Long German compound words (e.g. "Vorsorgeuntersuchungen") get proper
+       linguistic hyphenation with a visible hyphen at narrow widths, rather
+       than being chopped mid-word. overflow-wrap stays as a safety net only
+       - it lets a line break at an arbitrary point but only when a word
+       genuinely wouldn't otherwise fit, it does not force breaks. */
+    hyphens:auto;
+    -webkit-hyphens:auto;
+    -ms-hyphens:auto;
     overflow-wrap:break-word;
-    word-break:break-word;
   }
   h1,h2,h3{
     font-family:var(--font-display);
@@ -88,6 +93,9 @@
     text-wrap:balance;
     margin:0;
     letter-spacing:0;
+    hyphens:auto;
+    -webkit-hyphens:auto;
+    -ms-hyphens:auto;
   }
   p{margin:0;}
   a{color:var(--brand-700);}
@@ -218,6 +226,10 @@
     font-size:clamp(2rem, 4.4vw, 3.1rem);
     line-height:1.12;
     margin-block:14px 18px;
+    /* Largest text on the page, so it's the most likely to meet a
+       compound word it can't fit - allow a break anywhere as a last
+       resort fallback, after hyphenation has had its chance. */
+    overflow-wrap:anywhere;
   }
   .hero .lede{font-size:1.1rem; color:var(--ink-soft); max-width:58ch; margin-bottom:26px;}
   .hero-actions{display:flex; flex-wrap:wrap; gap:16px; align-items:center; margin-bottom:28px;}
@@ -377,6 +389,12 @@
   @media (max-width:760px){
     .hero-grid{grid-template-columns:minmax(0,1fr);}
     .hero-visual{order:-1; max-width:min(320px,70vw);}
+  }
+
+  /* On the narrowest phones, ease the hero headline down slightly so long
+     compound words need to hyphenate/wrap less often. */
+  @media (max-width:400px){
+    .hero h1{font-size:1.7rem;}
   }
 
   /* ---------- Qualification rows stack below 700px ---------- */
