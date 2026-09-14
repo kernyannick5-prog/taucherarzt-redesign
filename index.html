@@ -354,6 +354,10 @@
     color:#f1f0fb;
   }
   .contact-band .eyebrow{color:var(--brand-300);}
+  /* The generic h1,h2,h3 rule sets a fixed dark --ink color that wins over
+     inherited text color, so on this section's dark gradient background
+     the heading needs its own explicit light color or it's unreadable. */
+  .contact-band .section-head h2{color:#f1f0fb;}
   .contact-band .section-head .lede{color:#c9c6ec;}
   .contact-grid{
     display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
