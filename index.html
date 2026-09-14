@@ -7,63 +7,58 @@
 <meta name="description" content="Tauchmedizinische Vorsorgeuntersuchungen, Tauchtauglichkeit und besondere Fragen - Dr. med. Patrick M. Kern, Taucherarzt im Raum Karlsruhe-Speyer-Ludwigshafen.">
 <style>
   :root{
-    --font-sans:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    --font-mono:ui-monospace, "SFMono-Regular", Consolas, "Cascadia Mono", monospace;
+    --font-display: Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", "Noto Serif", serif;
+    --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-mono: ui-monospace, "SFMono-Regular", Consolas, "Cascadia Mono", monospace;
 
-    --paper:#f6f3ea;
+    --rail-w: 272px;
+    --rail-head-h: 72px;
+
+    /* Deep indigo / warm gold palette - distinct hue family from the
+       previous teal + cream + coral redesigns. */
+    --paper:#f3f4fb;
     --surface-raised:#ffffff;
-    --surface-line:#e5ddc9;
-    --ink:#122129;
-    --ink-soft:#4c6068;
-    --brand-900:#0a2e38;
-    --brand-700:#0e5c6e;
-    --brand-500:#1d7c8f;
-    --brand-300:#8fc2cc;
-    --accent:#d9683a;
-    --accent-ink:#210f07;
-    --focus:#0e5c6e;
-    --shadow-1: 0 1px 2px rgba(10,26,32,.06), 0 10px 28px -14px rgba(10,26,32,.22);
-
-    /* Fixed "depth band" palette used by the hero and footer only - always
-       dark, independent of light/dark mode, so the page keeps one strong
-       bookend identity (dark hero -> light content -> dark footer) whether
-       the visitor's system theme is light or dark. */
-    --band-bg-1:#071820;
-    --band-bg-2:#0e4c5c;
-    --band-ink:#f4f0e4;
-    --band-ink-soft:#b7d2d8;
-    --band-line: rgba(244,240,228,.16);
-    --band-accent:#f0935f;
+    --surface-line:#e1e1f2;
+    --ink:#1a1a30;
+    --ink-soft:#5b5b7c;
+    --brand-900:#14123a;
+    --brand-700:#3c34ad;
+    --brand-500:#5b52d6;
+    --brand-300:#c2bcf2;
+    --accent:#e2a10d;
+    --accent-ink:#2a1c02;
+    --focus:#3c34ad;
+    --shadow-1: 0 1px 2px rgba(20,18,58,.07), 0 12px 30px -16px rgba(20,18,58,.28);
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --paper:#0a161c;
-      --surface-raised:#0f232b;
-      --surface-line:#1d3640;
-      --ink:#eef1ea;
-      --ink-soft:#a7bcc2;
-      --brand-700:#6fc0cf;
-      --brand-500:#8fd2de;
-      --brand-300:#356772;
-      --accent:#ef9a68;
-      --accent-ink:#1c0f07;
-      --focus:#6fc0cf;
-      --shadow-1: 0 1px 2px rgba(0,0,0,.4), 0 10px 30px -14px rgba(0,0,0,.6);
+      --paper:#101026;
+      --surface-raised:#191735;
+      --surface-line:#2d2a56;
+      --ink:#eeeefc;
+      --ink-soft:#b3b1da;
+      --brand-700:#9089f2;
+      --brand-500:#a99ef5;
+      --brand-300:#433c7d;
+      --accent:#f2c135;
+      --accent-ink:#241a02;
+      --focus:#a99ef5;
+      --shadow-1: 0 1px 2px rgba(0,0,0,.45), 0 12px 32px -16px rgba(0,0,0,.65);
     }
   }
   :root[data-theme="dark"]{
-    --paper:#0a161c;
-    --surface-raised:#0f232b;
-    --surface-line:#1d3640;
-    --ink:#eef1ea;
-    --ink-soft:#a7bcc2;
-    --brand-700:#6fc0cf;
-    --brand-500:#8fd2de;
-    --brand-300:#356772;
-    --accent:#ef9a68;
-    --accent-ink:#1c0f07;
-    --focus:#6fc0cf;
-    --shadow-1: 0 1px 2px rgba(0,0,0,.4), 0 10px 30px -14px rgba(0,0,0,.6);
+    --paper:#101026;
+    --surface-raised:#191735;
+    --surface-line:#2d2a56;
+    --ink:#eeeefc;
+    --ink-soft:#b3b1da;
+    --brand-700:#9089f2;
+    --brand-500:#a99ef5;
+    --brand-300:#433c7d;
+    --accent:#f2c135;
+    --accent-ink:#241a02;
+    --focus:#a99ef5;
+    --shadow-1: 0 1px 2px rgba(0,0,0,.45), 0 12px 32px -16px rgba(0,0,0,.65);
   }
 
   *{box-sizing:border-box;}
@@ -80,42 +75,38 @@
     font-size:16px;
     line-height:1.65;
     -webkit-font-smoothing:antialiased;
-    /* Long unbroken German compound words (e.g. "Vorsorgeuntersuchungen")
-       don't fit narrow phone widths and would otherwise force the whole
-       page wider than the viewport, causing horizontal scroll and letting
-       the unstyled html background show through at the edge. */
+    overflow-x:hidden;
+    /* Long unbroken German compound words don't fit narrow phone widths and
+       would otherwise force the page wider than the viewport. */
     overflow-wrap:break-word;
     word-break:break-word;
   }
   h1,h2,h3{
-    font-family:var(--font-sans);
-    font-weight:800;
+    font-family:var(--font-display);
+    font-weight:600;
     color:var(--ink);
     text-wrap:balance;
     margin:0;
-    letter-spacing:-.02em;
+    letter-spacing:0;
   }
   p{margin:0;}
   a{color:var(--brand-700);}
-  a:focus-visible, button:focus-visible, [tabindex]:focus-visible{
+  a:focus-visible, button:focus-visible, summary:focus-visible, [tabindex]:focus-visible{
     outline:3px solid var(--focus);
     outline-offset:3px;
     border-radius:4px;
   }
-  .mono{
-    font-family:var(--font-mono);
-    letter-spacing:.02em;
-  }
+  .mono{font-family:var(--font-mono); letter-spacing:.02em;}
   .eyebrow{
-    font-family:var(--font-mono);
+    font-family:var(--font-sans);
     font-size:.78rem;
     letter-spacing:.14em;
     text-transform:uppercase;
     color:var(--brand-500);
-    font-weight:500;
+    font-weight:700;
   }
   .wrap{
-    max-width:1160px;
+    max-width:920px;
     margin-inline:auto;
     padding-inline:clamp(20px, 5vw, 48px);
   }
@@ -126,60 +117,53 @@
   .skip-link{
     position:absolute; left:12px; top:-60px;
     background:var(--brand-700); color:#fff;
-    padding:10px 16px; border-radius:6px; z-index:100;
+    padding:10px 16px; border-radius:6px; z-index:200;
     transition:top .15s ease;
     font-weight:600; text-decoration:none;
   }
   .skip-link:focus{top:12px;}
 
-  /* ---------- Header ---------- */
-  header.site{
-    position:sticky; top:0; z-index:40;
-    background:color-mix(in srgb, var(--paper) 88%, transparent);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--surface-line);
-  }
-  .site-bar{
-    display:flex; align-items:center; justify-content:space-between;
-    gap:24px; padding-block:14px;
-  }
-  .brand{
-    display:flex; align-items:center; gap:12px;
-    text-decoration:none; color:var(--ink);
-  }
-  .brand img{
-    width:38px; height:38px; border-radius:10px;
-    object-fit:cover; box-shadow:var(--shadow-1);
-  }
-  .brand-text{display:flex; flex-direction:column; line-height:1.15;}
-  .brand-text strong{font-family:var(--font-sans); font-size:1.04rem; font-weight:800; letter-spacing:-.01em;}
-  .brand-text span{font-size:.74rem; color:var(--ink-soft);}
-
-  nav.primary{display:flex; align-items:center; gap:clamp(4px,2vw,8px);}
-  nav.primary a{
-    text-decoration:none; color:var(--ink-soft); font-weight:600; font-size:.94rem;
-    padding:8px 12px; border-radius:7px; position:relative;
-  }
-  nav.primary a:hover{color:var(--ink); background:var(--surface-line);}
-  nav.primary a[aria-current="page"]{color:var(--brand-700);}
-  nav.primary a[aria-current="page"]::after{
-    content:""; position:absolute; left:12px; right:12px; bottom:3px; height:2px;
-    background:var(--accent); border-radius:2px;
-  }
   .cta{
     display:inline-flex; align-items:center; justify-content:center; gap:8px;
     background:var(--accent); color:var(--accent-ink);
-    text-decoration:none; font-weight:700; font-size:.92rem;
-    min-height:44px; padding:10px 20px; border-radius:8px;
+    text-decoration:none; font-weight:700; font-size:.94rem;
+    min-height:44px; padding:11px 22px; border-radius:9px;
     box-shadow:var(--shadow-1);
     transition:transform .15s ease, box-shadow .15s ease;
     white-space:nowrap;
   }
   .cta:hover{transform:translateY(-1px);}
   .cta:visited{color:var(--accent-ink);}
+  .link-quiet{
+    font-weight:600; text-decoration:none; color:var(--ink);
+    border-bottom:1px solid var(--surface-line);
+    padding-bottom:2px;
+  }
+  .link-quiet:hover{border-color:var(--brand-500);}
+
+  /* ---------- Sidebar navigation rail ----------
+     A fixed left rail on desktop replaces the classic sticky top bar; on
+     mobile it collapses to a slim top bar plus a full-screen overlay
+     drawer, rather than a small dropdown panel. */
+  .rail{
+    position:sticky; top:0; z-index:50;
+    background:color-mix(in srgb, var(--surface-raised) 92%, transparent);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--surface-line);
+  }
+  .rail-head{
+    min-height:var(--rail-head-h);
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    padding-inline:clamp(20px,5vw,32px);
+  }
+  .brand{display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--ink);}
+  .brand img{width:38px; height:38px; border-radius:10px; object-fit:cover; box-shadow:var(--shadow-1);}
+  .brand-text{display:flex; flex-direction:column; line-height:1.15;}
+  .brand-text strong{font-family:var(--font-display); font-size:1.08rem; font-weight:600;}
+  .brand-text span{font-size:.74rem; color:var(--ink-soft);}
 
   .menu-toggle{
-    display:none; background:none; border:1px solid var(--surface-line);
+    background:none; border:1px solid var(--surface-line);
     border-radius:8px; width:44px; height:44px; padding:0; cursor:pointer;
     flex:none;
   }
@@ -191,81 +175,96 @@
   .menu-toggle.open span:nth-child(2){opacity:0;}
   .menu-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
 
-  /* Mobile-only bottom action bar - a phone can call a number directly,
-     which is a genuinely mobile-specific capability a desktop visit
-     doesn't have, so this isn't just a shrunk desktop nav. Hidden on
-     desktop entirely (see .mobile-bar rule below and the media query). */
-  .mobile-bar{
-    display:none;
+  .rail-nav{
+    position:fixed; top:var(--rail-head-h); left:0; right:0; bottom:0;
+    background:var(--surface-raised);
+    display:flex; flex-direction:column; gap:6px;
+    padding:18px;
+    transform:translateX(100%);
+    transition:transform .25s ease;
+    overflow-y:auto;
+    z-index:45;
+  }
+  .rail-nav.open{transform:translateX(0);}
+  .rail-nav a{
+    display:flex; align-items:center; min-height:52px; padding:0 14px;
+    font-weight:700; font-size:1.1rem; text-decoration:none; color:var(--ink);
+    border-radius:10px;
+  }
+  .rail-nav a:hover{background:var(--surface-line);}
+  .rail-nav a[aria-current="page"]{color:var(--brand-700); background:color-mix(in srgb, var(--brand-500) 14%, transparent);}
+  .rail-nav .cta{margin-top:10px; justify-content:center;}
+  .rail-phone{
+    margin-top:auto; display:flex; align-items:center; justify-content:center;
+    min-height:52px; font-weight:700; text-decoration:none; color:var(--ink-soft);
+    border-top:1px solid var(--surface-line); padding-top:16px;
   }
 
-  /* ---------- Hero ---------- */
-  /* Always dark ("depth band"), independent of light/dark mode - see the
-     --band-* variables above. A single-column layout by default (no side
-     rail) keeps this safe from horizontal-overflow at any phone width. */
-  .hero{
-    position:relative;
-    overflow:hidden;
-    background:linear-gradient(155deg, var(--band-bg-1) 0%, var(--band-bg-2) 100%);
-    color:var(--band-ink);
-    padding-block:clamp(64px, 11vw, 120px) clamp(56px, 8vw, 96px);
-  }
-  .hero-decor{
-    position:absolute; inset:0; pointer-events:none;
-  }
-  .hero-decor svg{
-    position:absolute; top:-18%; right:-12%;
-    width:min(620px, 75vw); height:auto; opacity:.55;
-  }
-  .hero-decor .ring{fill:none; stroke:var(--band-line); stroke-width:1;}
-  .hero-decor .ring.r1{stroke:var(--band-accent); stroke-opacity:.55;}
+  /* ---------- Page content offset (desktop sidebar mode) ---------- */
+  .page{}
 
-  .hero-inner{position:relative; max-width:680px;}
-  .hero .eyebrow{color:var(--band-accent);}
+  /* ---------- Mobile quick-action bar ----------
+     A phone can call a number directly - a genuinely mobile-specific
+     capability - so this stays even though the drawer nav also has a CTA. */
+  .mobile-bar{display:none;}
+
+  /* ---------- Hero: split-screen with a soft blob visual ---------- */
+  .hero{padding-block:clamp(40px,7vw,88px);}
+  .hero-grid{
+    display:grid; grid-template-columns:1.15fr .85fr;
+    gap:clamp(28px,5vw,64px); align-items:center;
+  }
   .hero h1{
-    color:var(--band-ink);
-    font-size:clamp(2.1rem, 4.5vw, 3.35rem);
-    line-height:1.08;
-    margin-block:16px 18px;
+    font-size:clamp(2rem, 4.4vw, 3.1rem);
+    line-height:1.12;
+    margin-block:14px 18px;
   }
-  .hero .lede{
-    font-size:1.14rem; color:var(--band-ink-soft); max-width:56ch;
-    margin-bottom:30px;
-  }
-  .hero-actions{display:flex; flex-wrap:wrap; gap:16px; align-items:center;}
-  .link-quiet{
-    font-weight:600; text-decoration:none; color:var(--ink);
-    border-bottom:1px solid var(--surface-line);
-    padding-bottom:2px;
-  }
-  .link-quiet:hover{border-color:var(--brand-500);}
-  .hero .link-quiet{color:var(--band-ink); border-bottom-color:var(--band-line);}
-  .hero .link-quiet:hover{border-color:var(--band-accent);}
-
+  .hero .lede{font-size:1.1rem; color:var(--ink-soft); max-width:58ch; margin-bottom:26px;}
+  .hero-actions{display:flex; flex-wrap:wrap; gap:16px; align-items:center; margin-bottom:28px;}
   .region-tag{
     display:inline-flex; align-items:center; gap:8px;
-    margin-top:34px; padding:9px 14px;
+    padding:9px 14px;
     background:var(--surface-raised); border:1px solid var(--surface-line);
     border-radius:999px; font-size:.86rem; color:var(--ink-soft);
     box-shadow:var(--shadow-1);
   }
-  .region-tag .mono{color:var(--brand-700); font-weight:500;}
-  .hero .region-tag{
-    background:rgba(244,240,228,.08); border-color:var(--band-line);
-    color:var(--band-ink-soft); backdrop-filter:blur(6px);
+  .region-tag .mono{color:var(--brand-700); font-weight:600;}
+
+  .hero-visual{
+    position:relative; aspect-ratio:1/1;
+    width:100%; max-width:min(420px,82vw); margin-inline:auto;
   }
-  .hero .region-tag .mono{color:var(--band-accent);}
+  .hero-blob{
+    position:absolute; inset:0;
+    background:linear-gradient(155deg, var(--brand-700), var(--brand-500));
+    border-radius:63% 37% 54% 46% / 43% 37% 63% 57%;
+    box-shadow:var(--shadow-1);
+  }
+  .hero-blob::after{
+    content:""; position:absolute; inset:0; border-radius:inherit;
+    background-image:radial-gradient(circle, rgba(255,255,255,.5) 1.5px, transparent 1.5px);
+    background-size:20px 20px;
+    opacity:.22;
+    mix-blend-mode:overlay;
+  }
+  .hero-float-card{
+    position:absolute;
+    background:var(--surface-raised); border:1px solid var(--surface-line);
+    border-radius:14px; padding:12px 16px;
+    box-shadow:var(--shadow-1);
+    font-weight:700; font-size:.86rem; color:var(--ink);
+    max-width:62%;
+  }
+  .hero-float-card.card-1{top:6%; left:4%;}
+  .hero-float-card.card-2{bottom:8%; right:4%;}
 
   /* ---------- Sections ---------- */
-  section{padding-block:clamp(56px, 8vw, 96px);}
+  section{padding-block:clamp(48px, 7vw, 88px);}
   section + section{border-top:1px solid var(--surface-line);}
-  .section-head{max-width:64ch; margin-bottom:clamp(32px,5vw,52px);}
-  .section-head h2{font-size:clamp(1.6rem, 3vw, 2.15rem); margin-top:10px;}
-  .section-head .lede{color:var(--ink-soft); font-size:1.05rem; margin-top:14px; max-width:58ch;}
+  .section-head{max-width:64ch; margin-bottom:clamp(28px,5vw,44px);}
+  .section-head h2{font-size:clamp(1.5rem, 2.8vw, 2rem); margin-top:10px;}
+  .section-head .lede{color:var(--ink-soft); font-size:1.05rem; margin-top:12px; max-width:58ch;}
 
-  /* Visible by default (no-JS / JS-error safe). JS opts individual
-     below-the-fold sections into the hidden starting state right before
-     observing them - see the script at the end of the page. */
   .reveal{transition:opacity .6s ease, transform .6s ease;}
   .reveal.is-hidden{opacity:0; transform:translateY(14px);}
   @media (prefers-reduced-motion: reduce){
@@ -273,136 +272,127 @@
     .reveal.is-hidden{opacity:1; transform:none;}
   }
 
-  /* Qualifikationen */
-  .quals{
-    display:grid; grid-template-columns:repeat(auto-fit, minmax(230px,1fr));
-    gap:18px;
+  /* Qualifikation - alternating magazine-style rows */
+  .qual-row{
+    display:flex; flex-wrap:wrap; align-items:center;
+    gap:clamp(18px,4vw,44px);
+    padding-block:clamp(26px,4vw,38px);
+    border-top:1px solid var(--surface-line);
   }
-  .qual{
-    background:var(--surface-raised); border:1px solid var(--surface-line);
-    border-radius:16px; padding:28px 24px; box-shadow:var(--shadow-1);
-    display:flex; flex-direction:column; gap:12px;
-    transition:transform .18s ease, box-shadow .18s ease;
+  .qual-row:first-child{border-top:0; padding-top:0;}
+  .qual-num{
+    flex:0 0 auto; min-width:84px;
+    font-family:var(--font-display); font-weight:600;
+    font-size:clamp(2.4rem,5.5vw,3.8rem); line-height:1;
+    color:var(--brand-300);
   }
-  .qual:hover{
-    transform:translateY(-3px);
-    box-shadow:0 1px 2px rgba(10,26,32,.06), 0 18px 34px -16px rgba(10,26,32,.3);
-  }
-  @media (prefers-reduced-motion: reduce){ .qual:hover{transform:none;} }
-  .qual .mark{
-    width:40px; height:40px; border-radius:12px;
-    background:linear-gradient(155deg, var(--brand-700), var(--brand-500)); color:#fff;
-    display:flex; align-items:center; justify-content:center;
-    font-family:var(--font-mono); font-size:.82rem; font-weight:700;
-    box-shadow:0 6px 14px -6px rgba(14,92,110,.55);
-  }
-  .qual h3{font-size:1.05rem; font-weight:700; font-family:var(--font-sans);}
-  .qual p{color:var(--ink-soft); font-size:.94rem;}
+  .qual-body{flex:1 1 260px;}
+  .qual-body h3{font-size:1.12rem; font-weight:700; font-family:var(--font-sans); margin-bottom:8px;}
+  .qual-body p{color:var(--ink-soft); font-size:.98rem;}
+  .qual-row:nth-child(even) .qual-num{order:2;}
+  .qual-row:nth-child(even) .qual-body{order:1;}
 
-  /* Praxisspektrum - vertical timeline */
-  .exam-steps{list-style:none; margin:0; padding:0; counter-reset:step; position:relative;}
-  .exam-steps::before{
-    content:""; position:absolute; top:26px; bottom:26px; left:23px;
-    width:2px; background:var(--surface-line);
+  /* Praxisspektrum - horizontal scroll-snap strip */
+  .steps-head-row{
+    display:flex; align-items:flex-end; justify-content:space-between; gap:16px;
+    flex-wrap:wrap;
   }
-  .exam-steps li{
-    counter-increment:step; position:relative;
-    display:grid; grid-template-columns:46px minmax(0,1fr);
-    gap:20px; padding-block:16px; align-items:start;
-  }
-  .exam-steps li::before{
-    content:counter(step, decimal-leading-zero);
-    position:relative; z-index:1;
-    width:46px; height:46px; border-radius:50%;
-    background:var(--surface-raised); border:2px solid var(--brand-700); color:var(--brand-700);
+  .steps-controls{display:flex; gap:10px;}
+  .steps-controls button{
+    width:44px; height:44px; border-radius:50%;
+    border:1px solid var(--surface-line); background:var(--surface-raised);
+    color:var(--ink); font-size:1.2rem; cursor:pointer;
     display:flex; align-items:center; justify-content:center;
-    font-family:var(--font-mono); font-size:.82rem; font-weight:700;
   }
-  .exam-steps p{padding-top:12px; font-size:1.06rem;}
+  .steps-controls button:hover{background:var(--surface-line);}
+  .steps-strip{
+    list-style:none; margin:24px 0 0; padding-block:6px 22px;
+    display:flex; gap:20px;
+    overflow-x:auto; scroll-snap-type:x mandatory;
+    margin-inline:calc(-1 * clamp(20px,5vw,48px));
+    padding-inline:clamp(20px,5vw,48px);
+    scroll-padding-inline:clamp(20px,5vw,48px);
+    -webkit-overflow-scrolling:touch;
+  }
+  .step-card{
+    scroll-snap-align:start; flex:0 0 auto;
+    width:min(270px,76vw);
+    background:var(--surface-raised); border:1px solid var(--surface-line);
+    border-radius:18px; padding:26px 22px;
+    box-shadow:var(--shadow-1);
+    display:flex; flex-direction:column; gap:14px;
+  }
+  .step-card .num{font-family:var(--font-display); font-weight:600; font-size:2.2rem; color:var(--brand-300);}
+  .step-card p{font-size:1.02rem; font-weight:600;}
+  .scroll-hint{font-size:.82rem; color:var(--ink-soft); margin-top:2px;}
   .exam-note{
-    margin-top:30px; font-size:.94rem; color:var(--ink-soft);
+    margin-top:6px; font-size:.94rem; color:var(--ink-soft);
     border-left:3px solid var(--brand-300); padding-left:18px;
   }
 
-  /* Kontakt - split panel: dark "depth band" info side + light note side */
-  .contact-card{
-    display:grid; grid-template-columns:1.15fr .85fr;
-    border:1px solid var(--surface-line); border-radius:20px;
-    overflow:hidden; box-shadow:var(--shadow-1);
+  /* Kontakt - full-bleed bold band with tile grid (no card-in-card split) */
+  .contact-band{
+    background:linear-gradient(155deg, var(--brand-900), var(--brand-700));
+    color:#f1f0fb;
   }
-  .contact-panel-dark{
-    background:linear-gradient(160deg, var(--band-bg-1), var(--band-bg-2));
-    padding:clamp(30px,4vw,46px);
-    display:flex; align-items:center;
+  .contact-band .eyebrow{color:var(--brand-300);}
+  .contact-band .section-head .lede{color:#c9c6ec;}
+  .contact-grid{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+    gap:18px; margin-bottom:28px;
   }
-  .contact-panel-light{
-    background:var(--surface-raised);
-    padding:clamp(30px,4vw,46px);
-    display:flex; align-items:center;
+  .tile{
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.16);
+    border-radius:16px; padding:22px 22px;
   }
-  .contact-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:20px; width:100%;}
-  .contact-list a, .contact-list span{
-    text-decoration:none; color:var(--band-ink); font-weight:700; font-size:1.1rem;
-  }
-  .contact-list a:hover{color:var(--band-accent);}
-  .contact-list .label{
+  .tile.note{grid-column:1 / -1;}
+  .tile .label{
     display:block; font-family:var(--font-mono); font-size:.72rem;
-    letter-spacing:.1em; text-transform:uppercase; color:var(--band-ink-soft);
-    font-weight:400; margin-bottom:5px;
+    letter-spacing:.1em; text-transform:uppercase; color:#b9b6e6;
+    margin-bottom:8px;
   }
-  .flex-note{
-    background:var(--paper); border:1px dashed var(--surface-line);
-    border-radius:14px; padding:22px 24px; font-size:.98rem; color:var(--ink-soft);
-    width:100%;
-  }
-  .flex-note strong{color:var(--ink); display:block; margin-bottom:6px; font-weight:700;}
+  .tile a, .tile > span{color:#f1f0fb; font-weight:700; font-size:1.1rem; text-decoration:none;}
+  .tile a:hover{color:var(--accent);}
+  .tile.note strong{display:block; margin-bottom:6px; font-size:1.02rem;}
+  .tile.note p{color:#d6d4f0; font-size:.98rem; font-weight:400;}
+  .contact-band .cta{background:var(--accent); color:var(--accent-ink);}
 
-  /* Footer - matches the hero's dark "depth band" for a bookend feel */
+  /* Footer - minimal, no longer a matching dark bookend */
   footer.site{
-    background:linear-gradient(155deg, var(--band-bg-1), var(--band-bg-2));
-    color:var(--band-ink-soft);
-    padding-block:40px;
-    border-top:1px solid var(--band-line);
+    background:var(--paper);
+    color:var(--ink-soft);
+    padding-block:32px;
+    border-top:1px solid var(--surface-line);
   }
   .footer-row{
-    display:flex; flex-wrap:wrap; gap:16px 28px; justify-content:space-between; align-items:center;
+    display:flex; flex-wrap:wrap; gap:14px 26px; justify-content:space-between; align-items:center;
   }
-  .footer-row p{color:var(--band-ink-soft); font-size:.86rem;}
+  .footer-row p{color:var(--ink-soft); font-size:.86rem;}
   .footer-links{display:flex; gap:20px; flex-wrap:wrap;}
-  .footer-links a{color:var(--band-ink-soft); font-size:.86rem; text-decoration:none;}
-  .footer-links a:hover{color:var(--band-accent);}
+  .footer-links a{color:var(--ink-soft); font-size:.86rem; text-decoration:none;}
+  .footer-links a:hover{color:var(--brand-700);}
 
-  /* ---------- Tablet ---------- */
-  @media (min-width:600px) and (max-width:860px){
-    .quals{grid-template-columns:repeat(2, 1fr);}
+  /* ---------- Hero stacks below 760px ---------- */
+  @media (max-width:760px){
+    .hero-grid{grid-template-columns:minmax(0,1fr);}
+    .hero-visual{order:-1; max-width:min(320px,70vw);}
   }
 
-  @media (max-width: 860px){
-    body{padding-bottom:calc(72px + env(safe-area-inset-bottom));}
-    .site-bar{padding-block:10px;}
-    nav.primary{
-      position:fixed; inset:60px 12px auto 12px;
-      background:var(--surface-raised); border:1px solid var(--surface-line);
-      border-radius:14px; box-shadow:var(--shadow-1);
-      flex-direction:column; align-items:stretch; padding:10px;
-      transform-origin:top right;
-      opacity:0; transform:scale(.97) translateY(-6px); pointer-events:none;
-      transition:opacity .15s ease, transform .15s ease;
-    }
-    nav.primary.open{opacity:1; transform:none; pointer-events:auto;}
-    nav.primary a{padding:14px 16px; font-size:1rem; min-height:44px; display:flex; align-items:center;}
-    nav.primary a[aria-current="page"]::after{display:none;}
-    nav.primary a[aria-current="page"]{background:var(--surface-line);}
-    /* The bottom action bar (below) already covers "Termin anfragen" on
-       mobile, so the in-menu CTA would just be a redundant duplicate -
-       drop it here to keep the mobile menu short and uncluttered. */
-    nav.primary .cta{display:none;}
-    .menu-toggle{display:block;}
-    .hero{padding-block:40px 32px;}
-    .hero-decor svg{width:min(420px, 90vw); top:-14%; right:-16%;}
-    .quals{grid-template-columns:minmax(0,1fr);}
-    .contact-card{grid-template-columns:minmax(0,1fr);}
+  /* ---------- Qualification rows stack below 700px ---------- */
+  @media (max-width:700px){
+    .qual-row{flex-direction:column; align-items:flex-start; gap:10px;}
+    .qual-row:nth-child(even) .qual-num, .qual-row:nth-child(even) .qual-body{order:0;}
+    .qual-num{font-size:2.2rem; min-width:auto;}
+  }
 
+  @media (max-width:600px){
+    .steps-controls{display:none;}
+  }
+
+  /* ---------- Mobile layout (<900px): top bar + full-screen drawer ---------- */
+  @media (max-width:899px){
+    body{padding-bottom:calc(72px + env(safe-area-inset-bottom));}
     .mobile-bar{
       display:flex;
       position:fixed; left:0; right:0; bottom:0; z-index:60;
@@ -410,7 +400,7 @@
       gap:10px;
       background:var(--surface-raised);
       border-top:1px solid var(--surface-line);
-      box-shadow:0 -8px 20px -12px rgba(10,26,32,.25);
+      box-shadow:0 -8px 20px -12px rgba(20,18,58,.28);
     }
     .mobile-bar a{
       flex:1;
@@ -420,16 +410,24 @@
       font-weight:700; font-size:.94rem;
       border-radius:10px;
     }
-    .mobile-bar a.call{
-      color:var(--ink); background:var(--paper); border:1px solid var(--surface-line);
-    }
-    .mobile-bar a.book{
-      color:var(--accent-ink); background:var(--accent);
-    }
+    .mobile-bar a.call{color:var(--ink); background:var(--paper); border:1px solid var(--surface-line);}
+    .mobile-bar a.book{color:var(--accent-ink); background:var(--accent);}
   }
 
-  @media (min-width:1400px){
-    .wrap{max-width:1240px;}
+  /* ---------- Desktop layout (>=900px): fixed sidebar rail ---------- */
+  @media (min-width:900px){
+    .rail{
+      position:fixed; inset:0 auto 0 0; width:var(--rail-w);
+      display:flex; flex-direction:column;
+      border-bottom:0; border-right:1px solid var(--surface-line);
+    }
+    .rail-head{min-height:auto; flex-direction:column; align-items:flex-start; gap:18px; padding:28px 26px 8px;}
+    .menu-toggle{display:none;}
+    .rail-nav{
+      position:static; inset:auto; transform:none;
+      flex:1; display:flex; padding:8px 26px 26px;
+    }
+    .page{margin-left:var(--rail-w);}
   }
 </style>
 </head>
@@ -437,10 +435,11 @@
 
 <a class="skip-link" href="#main">Zum Inhalt springen</a>
 
-<header class="site">
-  <div class="wrap site-bar">
+<header class="rail" id="rail">
+  <div class="rail-head">
     <a class="brand" href="#top">
-      <img src="data:image/gif;base64,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" alt="" width="38" height="38">
+      <img src="data:image/gif;base64,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"
+        alt="" width="38" height="38">
       <span class="brand-text">
         <strong>Dr. med. Patrick M. Kern</strong>
         <span>Taucherarzt&nbsp;&middot;&nbsp;Tauchmedizin</span>
@@ -450,43 +449,45 @@
       <span></span><span></span><span></span>
       <span class="visually-hidden">Menü öffnen</span>
     </button>
-    <nav class="primary" id="primaryNav" aria-label="Hauptnavigation">
-      <a href="#top" aria-current="page">Startseite</a>
-      <a href="#praxisspektrum">Praxisspektrum</a>
-      <a href="#kontakt">Kontakt</a>
-      <a class="cta" href="mailto:docdeep007@t-online.de">Termin anfragen</a>
-    </nav>
   </div>
+  <nav class="rail-nav" id="primaryNav" aria-label="Hauptnavigation">
+    <a href="#top" aria-current="page">Startseite</a>
+    <a href="#qualifikation">Qualifikation</a>
+    <a href="#praxisspektrum">Praxisspektrum</a>
+    <a href="#kontakt">Kontakt</a>
+    <a class="cta" href="mailto:docdeep007@t-online.de">Termin anfragen</a>
+    <a class="rail-phone mono" href="tel:+491726816671">0172&nbsp;6816671</a>
+  </nav>
 </header>
 
+<div class="page" id="pageContent">
 <main id="main">
 
   <!-- HERO / STARTSEITE -->
   <section id="top" class="hero">
-    <div class="hero-decor" aria-hidden="true">
-      <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice">
-        <circle class="ring r1" cx="480" cy="130" r="60"></circle>
-        <circle class="ring r2" cx="480" cy="130" r="130"></circle>
-        <circle class="ring r3" cx="480" cy="130" r="210"></circle>
-        <circle class="ring r4" cx="480" cy="130" r="300"></circle>
-      </svg>
-    </div>
-    <div class="wrap hero-inner">
-      <p class="eyebrow">Tauchmedizinische Vorsorgeuntersuchungen · Tauchtauglichkeit</p>
-      <h1>Tauchmedizinische Vorsorgeuntersuchungen, Tauchtauglichkeit und besondere Fragen.</h1>
-      <p class="lede">
-        Mein Name ist Dr.&nbsp;med. Patrick M. Kern. Ich bin Facharzt für Anästhesiologie,
-        Intensivmedizin und Notfallmedizin und als Taucherarzt Mitglied der Deutschen
-        Gesellschaft für Tauch- und Überdruckmedizin (GTÜM). Ich biete Ihnen
-        Tauchtauglichkeitsuntersuchungen an und stehe für alle Fragen rund um die
-        Tauchmedizin zur Verfügung.
-      </p>
-      <div class="hero-actions">
-        <a class="cta" href="mailto:docdeep007@t-online.de">Termin anfragen</a>
-        <a class="link-quiet" href="#praxisspektrum">Ablauf der Untersuchung ansehen</a>
+    <div class="wrap hero-grid">
+      <div class="hero-text">
+        <p class="eyebrow">Tauchmedizinische Vorsorgeuntersuchungen · Tauchtauglichkeit</p>
+        <h1>Tauchmedizinische Vorsorgeuntersuchungen, Tauchtauglichkeit und besondere Fragen.</h1>
+        <p class="lede">
+          Mein Name ist Dr.&nbsp;med. Patrick M. Kern. Ich bin Facharzt für Anästhesiologie,
+          Intensivmedizin und Notfallmedizin und als Taucherarzt Mitglied der Deutschen
+          Gesellschaft für Tauch- und Überdruckmedizin (GTÜM). Ich biete Ihnen
+          Tauchtauglichkeitsuntersuchungen an und stehe für alle Fragen rund um die
+          Tauchmedizin zur Verfügung.
+        </p>
+        <div class="hero-actions">
+          <a class="cta" href="mailto:docdeep007@t-online.de">Termin anfragen</a>
+          <a class="link-quiet" href="#praxisspektrum">Ablauf der Untersuchung ansehen</a>
+        </div>
+        <div class="region-tag">
+          <span class="mono">Raum Karlsruhe · Speyer · Ludwigshafen</span>
+        </div>
       </div>
-      <div class="region-tag">
-        <span class="mono">Raum Karlsruhe · Speyer · Ludwigshafen</span>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-blob"></div>
+        <div class="hero-float-card card-1">Facharzt für Anästhesiologie</div>
+        <div class="hero-float-card card-2">Mitglied der GTÜM</div>
       </div>
     </div>
   </section>
@@ -503,26 +504,34 @@
         </p>
       </div>
 
-      <div class="quals reveal">
-        <div class="qual">
-          <span class="mark">FA</span>
-          <h3>Facharzt für Anästhesiologie</h3>
-          <p>Intensivmedizin und Notfallmedizin.</p>
+      <div class="reveal">
+        <div class="qual-row">
+          <span class="qual-num">01</span>
+          <div class="qual-body">
+            <h3>Facharzt für Anästhesiologie</h3>
+            <p>Intensivmedizin und Notfallmedizin.</p>
+          </div>
         </div>
-        <div class="qual">
-          <span class="mark">GT</span>
-          <h3>Mitglied der GTÜM</h3>
-          <p>Deutsche Gesellschaft für Tauch- und Überdruckmedizin.</p>
+        <div class="qual-row">
+          <span class="qual-num">02</span>
+          <div class="qual-body">
+            <h3>Mitglied der GTÜM</h3>
+            <p>Deutsche Gesellschaft für Tauch- und Überdruckmedizin.</p>
+          </div>
         </div>
-        <div class="qual">
-          <span class="mark">RD</span>
-          <h3>Rescue Diver</h3>
-          <p>Leidenschaftlicher Taucher aus eigener Erfahrung.</p>
+        <div class="qual-row">
+          <span class="qual-num">03</span>
+          <div class="qual-body">
+            <h3>Rescue Diver</h3>
+            <p>Leidenschaftlicher Taucher aus eigener Erfahrung.</p>
+          </div>
         </div>
-        <div class="qual">
-          <span class="mark">DK</span>
-          <h3>Druckkammer-Erfahrung</h3>
-          <p>Behandlung von Tauchunfällen auf Bandos, Malediven.</p>
+        <div class="qual-row">
+          <span class="qual-num">04</span>
+          <div class="qual-body">
+            <h3>Druckkammer-Erfahrung</h3>
+            <p>Behandlung von Tauchunfällen auf Bandos, Malediven.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -531,19 +540,26 @@
   <!-- PRAXISSPEKTRUM -->
   <section id="praxisspektrum">
     <div class="wrap">
-      <div class="section-head reveal">
-        <p class="eyebrow">Praxisspektrum</p>
-        <h2>Inhalt und Umfang der tauchsportärztlichen Untersuchung</h2>
-        <p class="lede">Nach den Richtlinien der GTÜM umfasst die Untersuchung:</p>
+      <div class="steps-head-row section-head reveal">
+        <div>
+          <p class="eyebrow">Praxisspektrum</p>
+          <h2>Inhalt und Umfang der tauchsportärztlichen Untersuchung</h2>
+          <p class="lede">Nach den Richtlinien der GTÜM umfasst die Untersuchung:</p>
+        </div>
+        <div class="steps-controls">
+          <button type="button" id="stepPrev" aria-label="Vorherige Untersuchung anzeigen">‹</button>
+          <button type="button" id="stepNext" aria-label="Nächste Untersuchung anzeigen">›</button>
+        </div>
       </div>
 
-      <ol class="exam-steps reveal">
-        <li><p>Erhebung der Krankengeschichte</p></li>
-        <li><p>Eingehende körperliche Untersuchung</p></li>
-        <li><p>EKG in Ruhe und gegebenenfalls unter Belastung</p></li>
-        <li><p>Lungenfunktionsprüfung</p></li>
-        <li><p>Beantwortung persönlicher Fragen und Anliegen</p></li>
-      </ol>
+      <p class="scroll-hint reveal">Zur Seite wischen oder scrollen →</p>
+      <ul class="steps-strip reveal" id="stepsStrip">
+        <li class="step-card"><span class="num">01</span><p>Erhebung der Krankengeschichte</p></li>
+        <li class="step-card"><span class="num">02</span><p>Eingehende körperliche Untersuchung</p></li>
+        <li class="step-card"><span class="num">03</span><p>EKG in Ruhe und gegebenenfalls unter Belastung</p></li>
+        <li class="step-card"><span class="num">04</span><p>Lungenfunktionsprüfung</p></li>
+        <li class="step-card"><span class="num">05</span><p>Beantwortung persönlicher Fragen und Anliegen</p></li>
+      </ul>
       <p class="exam-note reveal">
         Termine und Untersuchungsorte legen wir gemeinsam und flexibel fest –
         sprechen Sie mich einfach an.
@@ -552,38 +568,35 @@
   </section>
 
   <!-- KONTAKT -->
-  <section id="kontakt">
+  <section id="kontakt" class="contact-band">
     <div class="wrap">
       <div class="section-head reveal">
         <p class="eyebrow">Kontakt</p>
         <h2>So können Sie mich im Raum Karlsruhe&ndash;Speyer&ndash;Ludwigshafen erreichen</h2>
       </div>
 
-      <div class="contact-card reveal">
-        <div class="contact-panel-dark">
-          <ul class="contact-list">
-            <li>
-              <span class="label">E-Mail</span>
-              <a href="mailto:docdeep007@t-online.de">docdeep007@t-online.de</a>
-            </li>
-            <li>
-              <span class="label">Telefon</span>
-              <a href="tel:+491726816671" class="mono">0172&nbsp;6816671</a>
-            </li>
-            <li>
-              <span class="label">Einzugsgebiet</span>
-              <span>Karlsruhe · Speyer · Mannheim · Ludwigshafen</span>
-            </li>
-          </ul>
+      <div class="contact-grid reveal">
+        <div class="tile">
+          <span class="label">E-Mail</span>
+          <a href="mailto:docdeep007@t-online.de">docdeep007@t-online.de</a>
         </div>
-        <div class="contact-panel-light">
-          <div class="flex-note">
-            <strong>Flexible Terminvereinbarung</strong>
+        <div class="tile">
+          <span class="label">Telefon</span>
+          <a href="tel:+491726816671" class="mono">0172&nbsp;6816671</a>
+        </div>
+        <div class="tile">
+          <span class="label">Einzugsgebiet</span>
+          <span>Karlsruhe · Speyer · Mannheim · Ludwigshafen</span>
+        </div>
+        <div class="tile note">
+          <strong>Flexible Terminvereinbarung</strong>
+          <p>
             Termine und Untersuchungsorte legen wir gemeinsam und flexibel fest –
             melden Sie sich einfach per E-Mail oder Telefon.
-          </div>
+          </p>
         </div>
       </div>
+      <a class="cta" href="mailto:docdeep007@t-online.de">Termin anfragen</a>
     </div>
   </section>
 
@@ -599,8 +612,9 @@
     </div>
   </div>
 </footer>
+</div>
 
-<!-- Mobile-only bottom action bar, see .mobile-bar / the max-width media query in <style> -->
+<!-- Mobile-only quick-action bar -->
 <div class="mobile-bar" role="navigation" aria-label="Schnellkontakt">
   <a class="call" href="tel:+491726816671">Anrufen</a>
   <a class="book" href="mailto:docdeep007@t-online.de">Termin anfragen</a>
@@ -612,36 +626,54 @@
 
     var toggle = document.getElementById('menuToggle');
     var nav = document.getElementById('primaryNav');
+
+    function closeNav(){
+      nav.classList.remove('open');
+      toggle.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+    function openNav(){
+      nav.classList.add('open');
+      toggle.classList.add('open');
+      toggle.setAttribute('aria-expanded', 'true');
+      var first = nav.querySelector('a');
+      if (first) first.focus();
+    }
     toggle.addEventListener('click', function(){
-      var open = nav.classList.toggle('open');
-      toggle.classList.toggle('open', open);
-      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (nav.classList.contains('open')){ closeNav(); toggle.focus(); }
+      else { openNav(); }
     });
     nav.querySelectorAll('a').forEach(function(a){
-      a.addEventListener('click', function(){
-        nav.classList.remove('open');
-        toggle.classList.remove('open');
-        toggle.setAttribute('aria-expanded', 'false');
-      });
+      a.addEventListener('click', function(){ closeNav(); });
+    });
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && nav.classList.contains('open')){ closeNav(); toggle.focus(); }
     });
 
-    var sections = document.querySelectorAll('#qualifikation, #praxisspektrum, #kontakt');
-    var navLinks = document.querySelectorAll('nav.primary a[href^="#"]');
-    // "Qualifikation" has no nav item of its own - it reads as part of the
-    // Startseite section while scrolling, so it keeps that link highlighted.
-    var navTargetForSection = { qualifikation:'top', praxisspektrum:'praxisspektrum', kontakt:'kontakt' };
+    var strip = document.getElementById('stepsStrip');
+    var prevBtn = document.getElementById('stepPrev');
+    var nextBtn = document.getElementById('stepNext');
+    if (strip && prevBtn && nextBtn){
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function scrollStrip(dir){
+        var card = strip.querySelector('.step-card');
+        var amount = card ? card.getBoundingClientRect().width + 20 : 260;
+        strip.scrollBy({ left: dir * amount, behavior: reduceMotion ? 'auto' : 'smooth' });
+      }
+      prevBtn.addEventListener('click', function(){ scrollStrip(-1); });
+      nextBtn.addEventListener('click', function(){ scrollStrip(1); });
+    }
+
+    var sections = document.querySelectorAll('#top, #qualifikation, #praxisspektrum, #kontakt');
+    var navLinks = document.querySelectorAll('.rail-nav a[href^="#"]');
     function setActive(id){
-      var target = navTargetForSection[id] || id;
       navLinks.forEach(function(a){
-        var match = a.getAttribute('href') === '#' + target;
-        if (match) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
+        var match = a.getAttribute('href') === '#' + id;
+        if (match) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
       });
     }
 
     if ('IntersectionObserver' in window){
-      // Content is visible by default (see .reveal CSS) - only now, with JS
-      // confirmed working, do below-the-fold sections opt into a hidden
-      // starting state right before being observed for their fade-in.
       var revealEls = document.querySelectorAll('.reveal');
       revealEls.forEach(function(el){ el.classList.add('is-hidden'); });
       var revealObserver = new IntersectionObserver(function(entries){
@@ -651,7 +683,7 @@
             revealObserver.unobserve(entry.target);
           }
         });
-      }, {threshold:.15});
+      }, {threshold:.12});
       revealEls.forEach(function(el){ revealObserver.observe(el); });
 
       var navObserver = new IntersectionObserver(function(entries){
