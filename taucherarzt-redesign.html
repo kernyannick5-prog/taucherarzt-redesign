@@ -62,7 +62,7 @@
   }
 
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
+  html{scroll-behavior:smooth; overflow-x:hidden;}
   @media (prefers-reduced-motion: reduce){
     html{scroll-behavior:auto;}
     *{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important;}
@@ -76,15 +76,14 @@
     line-height:1.65;
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
-    /* Long German compound words (e.g. "Vorsorgeuntersuchungen") get proper
-       linguistic hyphenation with a visible hyphen at narrow widths, rather
-       than being chopped mid-word. overflow-wrap stays as a safety net only
-       - it lets a line break at an arbitrary point but only when a word
-       genuinely wouldn't otherwise fit, it does not force breaks. */
-    hyphens:auto;
-    -webkit-hyphens:auto;
-    -ms-hyphens:auto;
-    overflow-wrap:break-word;
+    /* Long German compound words (e.g. "Vorsorgeuntersuchungen") must stay
+       fully intact - no hyphenation and no mid-word breaks, ever. Left at
+       the default overflow-wrap ("normal", i.e. only break at whitespace)
+       so a word can never be split - not even as a "last resort", since
+       overflow-wrap:break-word can still fire in combination with
+       text-wrap:balance even when a word would fit whole on its own line.
+       Fluid font-size + spacing on the specific elements that hold long
+       words is what keeps them from overflowing at narrow widths instead. */
   }
   h1,h2,h3{
     font-family:var(--font-display);
@@ -93,9 +92,6 @@
     text-wrap:balance;
     margin:0;
     letter-spacing:0;
-    hyphens:auto;
-    -webkit-hyphens:auto;
-    -ms-hyphens:auto;
   }
   p{margin:0;}
   a{color:var(--brand-700);}
@@ -223,13 +219,13 @@
     gap:clamp(28px,5vw,64px); align-items:center;
   }
   .hero h1{
-    font-size:clamp(2rem, 4.4vw, 3.1rem);
-    line-height:1.12;
+    /* Largest text on the page and the most likely to contain a long
+       German compound word (e.g. "Vorsorgeuntersuchungen"), so it scales
+       down further at narrow widths than other headings to keep every
+       word whole without overflowing. */
+    font-size:clamp(1.5rem, 6.8vw, 3.1rem);
+    line-height:1.18;
     margin-block:14px 18px;
-    /* Largest text on the page, so it's the most likely to meet a
-       compound word it can't fit - allow a break anywhere as a last
-       resort fallback, after hyphenation has had its chance. */
-    overflow-wrap:anywhere;
   }
   .hero .lede{font-size:1.1rem; color:var(--ink-soft); max-width:58ch; margin-bottom:26px;}
   .hero-actions{display:flex; flex-wrap:wrap; gap:16px; align-items:center; margin-bottom:28px;}
@@ -391,10 +387,12 @@
     .hero-visual{order:-1; max-width:min(320px,70vw);}
   }
 
-  /* On the narrowest phones, ease the hero headline down slightly so long
-     compound words need to hyphenate/wrap less often. */
+  /* On the narrowest phones, ease the hero lede paragraph's font-size down
+     slightly - it contains the single longest word on the page
+     ("Tauchtauglichkeitsuntersuchungen") and needs a little more room per
+     character to stay whole without overflowing. */
   @media (max-width:400px){
-    .hero h1{font-size:1.7rem;}
+    .hero .lede{font-size:1rem;}
   }
 
   /* ---------- Qualification rows stack below 700px ---------- */
