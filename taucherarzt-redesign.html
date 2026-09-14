@@ -7,49 +7,63 @@
 <meta name="description" content="Tauchmedizinische Vorsorgeuntersuchungen, Tauchtauglichkeit und besondere Fragen - Dr. med. Patrick M. Kern, Taucherarzt im Raum Karlsruhe-Speyer-Ludwigshafen.">
 <style>
   :root{
-    --ink:#14212a;
-    --ink-soft:#3c525c;
-    --depth-950:#0a1a20;
-    --depth-700:#0e4c5c;
-    --depth-500:#1c6b7d;
-    --depth-300:#7fb0bd;
-    --surface:#f5f2ea;
+    --font-sans:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-mono:ui-monospace, "SFMono-Regular", Consolas, "Cascadia Mono", monospace;
+
+    --paper:#f6f3ea;
     --surface-raised:#ffffff;
-    --surface-line:#e4ddcd;
-    --signal:#b8542a;
-    --signal-ink:#ffffff;
-    --focus:#1c6b7d;
-    --shadow-1: 0 1px 2px rgba(10,26,32,.06), 0 6px 20px -8px rgba(10,26,32,.18);
+    --surface-line:#e5ddc9;
+    --ink:#122129;
+    --ink-soft:#4c6068;
+    --brand-900:#0a2e38;
+    --brand-700:#0e5c6e;
+    --brand-500:#1d7c8f;
+    --brand-300:#8fc2cc;
+    --accent:#d9683a;
+    --accent-ink:#210f07;
+    --focus:#0e5c6e;
+    --shadow-1: 0 1px 2px rgba(10,26,32,.06), 0 10px 28px -14px rgba(10,26,32,.22);
+
+    /* Fixed "depth band" palette used by the hero and footer only - always
+       dark, independent of light/dark mode, so the page keeps one strong
+       bookend identity (dark hero -> light content -> dark footer) whether
+       the visitor's system theme is light or dark. */
+    --band-bg-1:#071820;
+    --band-bg-2:#0e4c5c;
+    --band-ink:#f4f0e4;
+    --band-ink-soft:#b7d2d8;
+    --band-line: rgba(244,240,228,.16);
+    --band-accent:#f0935f;
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --ink:#eee7d8;
-      --ink-soft:#b8c7cc;
-      --surface:#0a1a20;
-      --surface-raised:#0f2830;
-      --surface-line:#1e3a42;
-      --depth-700:#5fa3b5;
-      --depth-500:#7fb0bd;
-      --depth-300:#3c6d7a;
-      --signal:#d97a49;
-      --signal-ink:#0a1a20;
-      --focus:#7fb0bd;
-      --shadow-1: 0 1px 2px rgba(0,0,0,.4), 0 6px 24px -8px rgba(0,0,0,.5);
+      --paper:#0a161c;
+      --surface-raised:#0f232b;
+      --surface-line:#1d3640;
+      --ink:#eef1ea;
+      --ink-soft:#a7bcc2;
+      --brand-700:#6fc0cf;
+      --brand-500:#8fd2de;
+      --brand-300:#356772;
+      --accent:#ef9a68;
+      --accent-ink:#1c0f07;
+      --focus:#6fc0cf;
+      --shadow-1: 0 1px 2px rgba(0,0,0,.4), 0 10px 30px -14px rgba(0,0,0,.6);
     }
   }
   :root[data-theme="dark"]{
-    --ink:#eee7d8;
-    --ink-soft:#b8c7cc;
-    --surface:#0a1a20;
-    --surface-raised:#0f2830;
-    --surface-line:#1e3a42;
-    --depth-700:#5fa3b5;
-    --depth-500:#7fb0bd;
-    --depth-300:#3c6d7a;
-    --signal:#d97a49;
-    --signal-ink:#0a1a20;
-    --focus:#7fb0bd;
-    --shadow-1: 0 1px 2px rgba(0,0,0,.4), 0 6px 24px -8px rgba(0,0,0,.5);
+    --paper:#0a161c;
+    --surface-raised:#0f232b;
+    --surface-line:#1d3640;
+    --ink:#eef1ea;
+    --ink-soft:#a7bcc2;
+    --brand-700:#6fc0cf;
+    --brand-500:#8fd2de;
+    --brand-300:#356772;
+    --accent:#ef9a68;
+    --accent-ink:#1c0f07;
+    --focus:#6fc0cf;
+    --shadow-1: 0 1px 2px rgba(0,0,0,.4), 0 10px 30px -14px rgba(0,0,0,.6);
   }
 
   *{box-sizing:border-box;}
@@ -60,11 +74,11 @@
   }
   body{
     margin:0;
-    background:var(--surface);
+    background:var(--paper);
     color:var(--ink);
-    font-family:ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-family:var(--font-sans);
     font-size:16px;
-    line-height:1.6;
+    line-height:1.65;
     -webkit-font-smoothing:antialiased;
     /* Long unbroken German compound words (e.g. "Vorsorgeuntersuchungen")
        don't fit narrow phone widths and would otherwise force the whole
@@ -74,34 +88,34 @@
     word-break:break-word;
   }
   h1,h2,h3{
-    font-family:Georgia, "Times New Roman", "Noto Serif", serif;
-    font-weight:600;
+    font-family:var(--font-sans);
+    font-weight:800;
     color:var(--ink);
     text-wrap:balance;
     margin:0;
-    letter-spacing:-.01em;
+    letter-spacing:-.02em;
   }
   p{margin:0;}
-  a{color:var(--depth-700);}
+  a{color:var(--brand-700);}
   a:focus-visible, button:focus-visible, [tabindex]:focus-visible{
     outline:3px solid var(--focus);
     outline-offset:3px;
     border-radius:4px;
   }
   .mono{
-    font-family:ui-monospace, "SFMono-Regular", Consolas, "Cascadia Mono", monospace;
+    font-family:var(--font-mono);
     letter-spacing:.02em;
   }
   .eyebrow{
-    font-family:ui-monospace, "SFMono-Regular", Consolas, "Cascadia Mono", monospace;
+    font-family:var(--font-mono);
     font-size:.78rem;
     letter-spacing:.14em;
     text-transform:uppercase;
-    color:var(--depth-500);
+    color:var(--brand-500);
     font-weight:500;
   }
   .wrap{
-    max-width:1120px;
+    max-width:1160px;
     margin-inline:auto;
     padding-inline:clamp(20px, 5vw, 48px);
   }
@@ -111,7 +125,7 @@
   }
   .skip-link{
     position:absolute; left:12px; top:-60px;
-    background:var(--depth-700); color:#fff;
+    background:var(--brand-700); color:#fff;
     padding:10px 16px; border-radius:6px; z-index:100;
     transition:top .15s ease;
     font-weight:600; text-decoration:none;
@@ -121,7 +135,7 @@
   /* ---------- Header ---------- */
   header.site{
     position:sticky; top:0; z-index:40;
-    background:color-mix(in srgb, var(--surface) 88%, transparent);
+    background:color-mix(in srgb, var(--paper) 88%, transparent);
     backdrop-filter:blur(10px);
     border-bottom:1px solid var(--surface-line);
   }
@@ -134,11 +148,11 @@
     text-decoration:none; color:var(--ink);
   }
   .brand img{
-    width:38px; height:38px; border-radius:9px;
+    width:38px; height:38px; border-radius:10px;
     object-fit:cover; box-shadow:var(--shadow-1);
   }
   .brand-text{display:flex; flex-direction:column; line-height:1.15;}
-  .brand-text strong{font-family:Georgia, "Times New Roman", serif; font-size:1.06rem; font-weight:600;}
+  .brand-text strong{font-family:var(--font-sans); font-size:1.04rem; font-weight:800; letter-spacing:-.01em;}
   .brand-text span{font-size:.74rem; color:var(--ink-soft);}
 
   nav.primary{display:flex; align-items:center; gap:clamp(4px,2vw,8px);}
@@ -147,22 +161,22 @@
     padding:8px 12px; border-radius:7px; position:relative;
   }
   nav.primary a:hover{color:var(--ink); background:var(--surface-line);}
-  nav.primary a[aria-current="page"]{color:var(--depth-700);}
+  nav.primary a[aria-current="page"]{color:var(--brand-700);}
   nav.primary a[aria-current="page"]::after{
     content:""; position:absolute; left:12px; right:12px; bottom:3px; height:2px;
-    background:var(--signal); border-radius:2px;
+    background:var(--accent); border-radius:2px;
   }
   .cta{
-    display:inline-flex; align-items:center; gap:8px;
-    background:var(--signal); color:var(--signal-ink);
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    background:var(--accent); color:var(--accent-ink);
     text-decoration:none; font-weight:700; font-size:.92rem;
-    padding:10px 18px; border-radius:8px;
+    min-height:44px; padding:10px 20px; border-radius:8px;
     box-shadow:var(--shadow-1);
     transition:transform .15s ease, box-shadow .15s ease;
     white-space:nowrap;
   }
   .cta:hover{transform:translateY(-1px);}
-  .cta:visited{color:var(--signal-ink);}
+  .cta:visited{color:var(--accent-ink);}
 
   .menu-toggle{
     display:none; background:none; border:1px solid var(--surface-line);
@@ -186,51 +200,61 @@
   }
 
   /* ---------- Hero ---------- */
+  /* Always dark ("depth band"), independent of light/dark mode - see the
+     --band-* variables above. A single-column layout by default (no side
+     rail) keeps this safe from horizontal-overflow at any phone width. */
   .hero{
-    padding-block:clamp(52px, 9vw, 96px) clamp(48px, 7vw, 80px);
-    border-bottom:1px solid var(--surface-line);
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(155deg, var(--band-bg-1) 0%, var(--band-bg-2) 100%);
+    color:var(--band-ink);
+    padding-block:clamp(64px, 11vw, 120px) clamp(56px, 8vw, 96px);
   }
-  .hero-grid{
-    display:grid;
-    grid-template-columns: 56px minmax(0,1fr);
-    gap:clamp(20px,4vw,44px);
-    align-items:start;
+  .hero-decor{
+    position:absolute; inset:0; pointer-events:none;
   }
-  .depth-rule{position:sticky; top:110px;}
-  .depth-rule svg{display:block; width:100%; height:auto; overflow:visible;}
-  .depth-rule text{
-    font-family:ui-monospace, "SFMono-Regular", Consolas, "Cascadia Mono", monospace; font-size:9px; fill:var(--ink-soft);
+  .hero-decor svg{
+    position:absolute; top:-18%; right:-12%;
+    width:min(620px, 75vw); height:auto; opacity:.55;
   }
-  .depth-rule line{stroke:var(--surface-line); stroke-width:1;}
-  .depth-rule .marker{stroke:var(--signal); stroke-width:2;}
-  .depth-rule .marker-dot{fill:var(--signal);}
+  .hero-decor .ring{fill:none; stroke:var(--band-line); stroke-width:1;}
+  .hero-decor .ring.r1{stroke:var(--band-accent); stroke-opacity:.55;}
 
-  .hero-copy{max-width:640px;}
+  .hero-inner{position:relative; max-width:680px;}
+  .hero .eyebrow{color:var(--band-accent);}
   .hero h1{
-    font-size:clamp(2.1rem, 4.2vw, 3.1rem);
+    color:var(--band-ink);
+    font-size:clamp(2.1rem, 4.5vw, 3.35rem);
     line-height:1.08;
-    margin-block:14px 18px;
+    margin-block:16px 18px;
   }
   .hero .lede{
-    font-size:1.14rem; color:var(--ink-soft); max-width:56ch;
-    margin-bottom:28px;
+    font-size:1.14rem; color:var(--band-ink-soft); max-width:56ch;
+    margin-bottom:30px;
   }
-  .hero-actions{display:flex; flex-wrap:wrap; gap:14px; align-items:center;}
+  .hero-actions{display:flex; flex-wrap:wrap; gap:16px; align-items:center;}
   .link-quiet{
     font-weight:600; text-decoration:none; color:var(--ink);
     border-bottom:1px solid var(--surface-line);
     padding-bottom:2px;
   }
-  .link-quiet:hover{border-color:var(--depth-500);}
+  .link-quiet:hover{border-color:var(--brand-500);}
+  .hero .link-quiet{color:var(--band-ink); border-bottom-color:var(--band-line);}
+  .hero .link-quiet:hover{border-color:var(--band-accent);}
 
   .region-tag{
     display:inline-flex; align-items:center; gap:8px;
-    margin-top:32px; padding:9px 14px;
+    margin-top:34px; padding:9px 14px;
     background:var(--surface-raised); border:1px solid var(--surface-line);
     border-radius:999px; font-size:.86rem; color:var(--ink-soft);
     box-shadow:var(--shadow-1);
   }
-  .region-tag .mono{color:var(--depth-700); font-weight:500;}
+  .region-tag .mono{color:var(--brand-700); font-weight:500;}
+  .hero .region-tag{
+    background:rgba(244,240,228,.08); border-color:var(--band-line);
+    color:var(--band-ink-soft); backdrop-filter:blur(6px);
+  }
+  .hero .region-tag .mono{color:var(--band-accent);}
 
   /* ---------- Sections ---------- */
   section{padding-block:clamp(56px, 8vw, 96px);}
@@ -252,79 +276,106 @@
   /* Qualifikationen */
   .quals{
     display:grid; grid-template-columns:repeat(auto-fit, minmax(230px,1fr));
-    gap:1px; background:var(--surface-line);
-    border:1px solid var(--surface-line); border-radius:14px; overflow:hidden;
+    gap:18px;
   }
   .qual{
-    background:var(--surface-raised); padding:26px 24px;
-    display:flex; flex-direction:column; gap:10px;
+    background:var(--surface-raised); border:1px solid var(--surface-line);
+    border-radius:16px; padding:28px 24px; box-shadow:var(--shadow-1);
+    display:flex; flex-direction:column; gap:12px;
+    transition:transform .18s ease, box-shadow .18s ease;
   }
+  .qual:hover{
+    transform:translateY(-3px);
+    box-shadow:0 1px 2px rgba(10,26,32,.06), 0 18px 34px -16px rgba(10,26,32,.3);
+  }
+  @media (prefers-reduced-motion: reduce){ .qual:hover{transform:none;} }
   .qual .mark{
-    width:34px; height:34px; border-radius:9px;
-    background:var(--depth-700); color:#fff;
+    width:40px; height:40px; border-radius:12px;
+    background:linear-gradient(155deg, var(--brand-700), var(--brand-500)); color:#fff;
     display:flex; align-items:center; justify-content:center;
-    font-family:ui-monospace, "SFMono-Regular", Consolas, "Cascadia Mono", monospace; font-size:.82rem; font-weight:500;
+    font-family:var(--font-mono); font-size:.82rem; font-weight:700;
+    box-shadow:0 6px 14px -6px rgba(14,92,110,.55);
   }
-  .qual h3{font-size:1.02rem; font-weight:600; font-family:ui-sans-serif, system-ui, sans-serif;}
+  .qual h3{font-size:1.05rem; font-weight:700; font-family:var(--font-sans);}
   .qual p{color:var(--ink-soft); font-size:.94rem;}
 
-  /* Praxisspektrum */
-  .exam-steps{list-style:none; margin:0; padding:0; counter-reset:step;}
-  .exam-steps li{
-    counter-increment:step;
-    display:grid; grid-template-columns:52px minmax(0,1fr);
-    gap:20px; padding-block:20px;
-    border-top:1px solid var(--surface-line);
-    align-items:baseline;
+  /* Praxisspektrum - vertical timeline */
+  .exam-steps{list-style:none; margin:0; padding:0; counter-reset:step; position:relative;}
+  .exam-steps::before{
+    content:""; position:absolute; top:26px; bottom:26px; left:23px;
+    width:2px; background:var(--surface-line);
   }
-  .exam-steps li:last-child{border-bottom:1px solid var(--surface-line);}
+  .exam-steps li{
+    counter-increment:step; position:relative;
+    display:grid; grid-template-columns:46px minmax(0,1fr);
+    gap:20px; padding-block:16px; align-items:start;
+  }
   .exam-steps li::before{
     content:counter(step, decimal-leading-zero);
-    font-family:ui-monospace, "SFMono-Regular", Consolas, "Cascadia Mono", monospace; color:var(--depth-500);
-    font-size:.95rem;
+    position:relative; z-index:1;
+    width:46px; height:46px; border-radius:50%;
+    background:var(--surface-raised); border:2px solid var(--brand-700); color:var(--brand-700);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-mono); font-size:.82rem; font-weight:700;
   }
-  .exam-steps p{font-size:1.06rem;}
+  .exam-steps p{padding-top:12px; font-size:1.06rem;}
   .exam-note{
-    margin-top:26px; font-size:.92rem; color:var(--ink-soft);
-    border-left:3px solid var(--depth-300); padding-left:16px;
+    margin-top:30px; font-size:.94rem; color:var(--ink-soft);
+    border-left:3px solid var(--brand-300); padding-left:18px;
   }
 
-  /* Kontakt */
+  /* Kontakt - split panel: dark "depth band" info side + light note side */
   .contact-card{
-    background:var(--surface-raised); border:1px solid var(--surface-line);
-    border-radius:16px; box-shadow:var(--shadow-1);
-    padding:clamp(28px,4vw,44px);
-    display:grid; grid-template-columns:1.1fr .9fr; gap:40px;
+    display:grid; grid-template-columns:1.15fr .85fr;
+    border:1px solid var(--surface-line); border-radius:20px;
+    overflow:hidden; box-shadow:var(--shadow-1);
   }
-  .contact-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:18px;}
+  .contact-panel-dark{
+    background:linear-gradient(160deg, var(--band-bg-1), var(--band-bg-2));
+    padding:clamp(30px,4vw,46px);
+    display:flex; align-items:center;
+  }
+  .contact-panel-light{
+    background:var(--surface-raised);
+    padding:clamp(30px,4vw,46px);
+    display:flex; align-items:center;
+  }
+  .contact-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:20px; width:100%;}
   .contact-list a, .contact-list span{
-    text-decoration:none; color:var(--ink); font-weight:600; font-size:1.08rem;
+    text-decoration:none; color:var(--band-ink); font-weight:700; font-size:1.1rem;
   }
-  .contact-list a:hover{color:var(--depth-700);}
+  .contact-list a:hover{color:var(--band-accent);}
   .contact-list .label{
-    display:block; font-family:ui-monospace, "SFMono-Regular", Consolas, "Cascadia Mono", monospace; font-size:.72rem;
-    letter-spacing:.1em; text-transform:uppercase; color:var(--ink-soft);
-    font-weight:400; margin-bottom:4px;
+    display:block; font-family:var(--font-mono); font-size:.72rem;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--band-ink-soft);
+    font-weight:400; margin-bottom:5px;
   }
   .flex-note{
-    background:var(--surface); border:1px dashed var(--surface-line);
-    border-radius:12px; padding:20px 22px; font-size:.98rem; color:var(--ink-soft);
-    align-self:start;
+    background:var(--paper); border:1px dashed var(--surface-line);
+    border-radius:14px; padding:22px 24px; font-size:.98rem; color:var(--ink-soft);
+    width:100%;
   }
-  .flex-note strong{color:var(--ink); display:block; margin-bottom:6px; font-weight:600;}
+  .flex-note strong{color:var(--ink); display:block; margin-bottom:6px; font-weight:700;}
 
-  /* Footer */
+  /* Footer - matches the hero's dark "depth band" for a bookend feel */
   footer.site{
-    padding-block:36px;
-    border-top:1px solid var(--surface-line);
+    background:linear-gradient(155deg, var(--band-bg-1), var(--band-bg-2));
+    color:var(--band-ink-soft);
+    padding-block:40px;
+    border-top:1px solid var(--band-line);
   }
   .footer-row{
     display:flex; flex-wrap:wrap; gap:16px 28px; justify-content:space-between; align-items:center;
   }
-  .footer-row p{color:var(--ink-soft); font-size:.86rem;}
+  .footer-row p{color:var(--band-ink-soft); font-size:.86rem;}
   .footer-links{display:flex; gap:20px; flex-wrap:wrap;}
-  .footer-links a{color:var(--ink-soft); font-size:.86rem; text-decoration:none;}
-  .footer-links a:hover{color:var(--depth-700);}
+  .footer-links a{color:var(--band-ink-soft); font-size:.86rem; text-decoration:none;}
+  .footer-links a:hover{color:var(--band-accent);}
+
+  /* ---------- Tablet ---------- */
+  @media (min-width:600px) and (max-width:860px){
+    .quals{grid-template-columns:repeat(2, 1fr);}
+  }
 
   @media (max-width: 860px){
     body{padding-bottom:calc(72px + env(safe-area-inset-bottom));}
@@ -347,12 +398,9 @@
        drop it here to keep the mobile menu short and uncluttered. */
     nav.primary .cta{display:none;}
     .menu-toggle{display:block;}
-    .hero{padding-block:32px 28px;}
-    /* minmax(0,1fr), not plain 1fr: a bare 1fr track still won't shrink
-       below the column's content min-width, which was pushing the whole
-       page wider than the viewport on phones. */
-    .hero-grid{grid-template-columns:minmax(0,1fr);}
-    .depth-rule{display:none;}
+    .hero{padding-block:40px 32px;}
+    .hero-decor svg{width:min(420px, 90vw); top:-14%; right:-16%;}
+    .quals{grid-template-columns:minmax(0,1fr);}
     .contact-card{grid-template-columns:minmax(0,1fr);}
 
     .mobile-bar{
@@ -373,11 +421,15 @@
       border-radius:10px;
     }
     .mobile-bar a.call{
-      color:var(--ink); background:var(--surface); border:1px solid var(--surface-line);
+      color:var(--ink); background:var(--paper); border:1px solid var(--surface-line);
     }
     .mobile-bar a.book{
-      color:var(--signal-ink); background:var(--signal);
+      color:var(--accent-ink); background:var(--accent);
     }
+  }
+
+  @media (min-width:1400px){
+    .wrap{max-width:1240px;}
   }
 </style>
 </head>
@@ -411,44 +463,30 @@
 
   <!-- HERO / STARTSEITE -->
   <section id="top" class="hero">
-    <div class="wrap hero-grid">
-      <div class="depth-rule" aria-hidden="true">
-        <svg viewBox="0 0 40 420" width="40" height="420">
-          <line x1="20" y1="0" x2="20" y2="420"></line>
-          <g>
-            <line x1="14" y1="0" x2="26" y2="0"></line>
-            <text x="0" y="4">0m</text>
-            <line x1="14" y1="100" x2="26" y2="100"></line>
-            <text x="0" y="104">10m</text>
-            <line x1="14" y1="200" x2="26" y2="200"></line>
-            <text x="0" y="204">20m</text>
-            <line x1="14" y1="300" x2="26" y2="300"></line>
-            <text x="0" y="304">30m</text>
-            <line x1="14" y1="400" x2="26" y2="400"></line>
-            <text x="0" y="404">40m</text>
-          </g>
-          <line class="marker" x1="20" y1="0" x2="20" y2="150"></line>
-          <circle class="marker-dot" cx="20" cy="150" r="4"></circle>
-        </svg>
+    <div class="hero-decor" aria-hidden="true">
+      <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice">
+        <circle class="ring r1" cx="480" cy="130" r="60"></circle>
+        <circle class="ring r2" cx="480" cy="130" r="130"></circle>
+        <circle class="ring r3" cx="480" cy="130" r="210"></circle>
+        <circle class="ring r4" cx="480" cy="130" r="300"></circle>
+      </svg>
+    </div>
+    <div class="wrap hero-inner">
+      <p class="eyebrow">Tauchmedizinische Vorsorgeuntersuchungen · Tauchtauglichkeit</p>
+      <h1>Tauchmedizinische Vorsorgeuntersuchungen, Tauchtauglichkeit und besondere Fragen.</h1>
+      <p class="lede">
+        Mein Name ist Dr.&nbsp;med. Patrick M. Kern. Ich bin Facharzt für Anästhesiologie,
+        Intensivmedizin und Notfallmedizin und als Taucherarzt Mitglied der Deutschen
+        Gesellschaft für Tauch- und Überdruckmedizin (GTÜM). Ich biete Ihnen
+        Tauchtauglichkeitsuntersuchungen an und stehe für alle Fragen rund um die
+        Tauchmedizin zur Verfügung.
+      </p>
+      <div class="hero-actions">
+        <a class="cta" href="mailto:docdeep007@t-online.de">Termin anfragen</a>
+        <a class="link-quiet" href="#praxisspektrum">Ablauf der Untersuchung ansehen</a>
       </div>
-
-      <div class="hero-copy">
-        <p class="eyebrow">Tauchmedizinische Vorsorgeuntersuchungen · Tauchtauglichkeit</p>
-        <h1>Tauchmedizinische Vorsorgeuntersuchungen, Tauchtauglichkeit und besondere Fragen.</h1>
-        <p class="lede">
-          Mein Name ist Dr.&nbsp;med. Patrick M. Kern. Ich bin Facharzt für Anästhesiologie,
-          Intensivmedizin und Notfallmedizin und als Taucherarzt Mitglied der Deutschen
-          Gesellschaft für Tauch- und Überdruckmedizin (GTÜM). Ich biete Ihnen
-          Tauchtauglichkeitsuntersuchungen an und stehe für alle Fragen rund um die
-          Tauchmedizin zur Verfügung.
-        </p>
-        <div class="hero-actions">
-          <a class="cta" href="mailto:docdeep007@t-online.de">Termin anfragen</a>
-          <a class="link-quiet" href="#praxisspektrum">Ablauf der Untersuchung ansehen</a>
-        </div>
-        <div class="region-tag">
-          <span class="mono">Raum Karlsruhe · Speyer · Ludwigshafen</span>
-        </div>
+      <div class="region-tag">
+        <span class="mono">Raum Karlsruhe · Speyer · Ludwigshafen</span>
       </div>
     </div>
   </section>
@@ -522,24 +560,28 @@
       </div>
 
       <div class="contact-card reveal">
-        <ul class="contact-list">
-          <li>
-            <span class="label">E-Mail</span>
-            <a href="mailto:docdeep007@t-online.de">docdeep007@t-online.de</a>
-          </li>
-          <li>
-            <span class="label">Telefon</span>
-            <a href="tel:+491726816671" class="mono">0172&nbsp;6816671</a>
-          </li>
-          <li>
-            <span class="label">Einzugsgebiet</span>
-            <span>Karlsruhe · Speyer · Mannheim · Ludwigshafen</span>
-          </li>
-        </ul>
-        <div class="flex-note">
-          <strong>Flexible Terminvereinbarung</strong>
-          Termine und Untersuchungsorte legen wir gemeinsam und flexibel fest –
-          melden Sie sich einfach per E-Mail oder Telefon.
+        <div class="contact-panel-dark">
+          <ul class="contact-list">
+            <li>
+              <span class="label">E-Mail</span>
+              <a href="mailto:docdeep007@t-online.de">docdeep007@t-online.de</a>
+            </li>
+            <li>
+              <span class="label">Telefon</span>
+              <a href="tel:+491726816671" class="mono">0172&nbsp;6816671</a>
+            </li>
+            <li>
+              <span class="label">Einzugsgebiet</span>
+              <span>Karlsruhe · Speyer · Mannheim · Ludwigshafen</span>
+            </li>
+          </ul>
+        </div>
+        <div class="contact-panel-light">
+          <div class="flex-note">
+            <strong>Flexible Terminvereinbarung</strong>
+            Termine und Untersuchungsorte legen wir gemeinsam und flexibel fest –
+            melden Sie sich einfach per E-Mail oder Telefon.
+          </div>
         </div>
       </div>
     </div>
