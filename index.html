@@ -29,36 +29,10 @@
     --accent-ink:#2a1c02;
     --focus:#3c34ad;
     --shadow-1: 0 1px 2px rgba(20,18,58,.07), 0 12px 30px -16px rgba(20,18,58,.28);
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --paper:#101026;
-      --surface-raised:#191735;
-      --surface-line:#2d2a56;
-      --ink:#eeeefc;
-      --ink-soft:#b3b1da;
-      --brand-700:#9089f2;
-      --brand-500:#a99ef5;
-      --brand-300:#433c7d;
-      --accent:#f2c135;
-      --accent-ink:#241a02;
-      --focus:#a99ef5;
-      --shadow-1: 0 1px 2px rgba(0,0,0,.45), 0 12px 32px -16px rgba(0,0,0,.65);
-    }
-  }
-  :root[data-theme="dark"]{
-    --paper:#101026;
-    --surface-raised:#191735;
-    --surface-line:#2d2a56;
-    --ink:#eeeefc;
-    --ink-soft:#b3b1da;
-    --brand-700:#9089f2;
-    --brand-500:#a99ef5;
-    --brand-300:#433c7d;
-    --accent:#f2c135;
-    --accent-ink:#241a02;
-    --focus:#a99ef5;
-    --shadow-1: 0 1px 2px rgba(0,0,0,.45), 0 12px 32px -16px rgba(0,0,0,.65);
+    /* Always render the light palette, regardless of the device's dark
+       mode setting - the owner wants a consistent white background on
+       every device, not an automatic dark theme. */
+    color-scheme: light;
   }
 
   *{box-sizing:border-box;}
