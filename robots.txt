@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /taucherarzt-redesign.html
+Disallow: /taucherarzt-redesign-2.html
+
+Sitemap: https://taucherarzt.online/sitemap.xml
