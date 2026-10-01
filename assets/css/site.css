@@ -167,7 +167,7 @@ a{color:var(--teal-ink);}
 }
 .site-header.is-scrolled{
   height:64px;
-  background:rgba(255,255,255,.98);
+  background:#fff;
   color:var(--ink);
   box-shadow:0 1px 0 var(--line), 0 10px 30px -16px rgba(4,24,43,.3);
   --focus:var(--teal-ink);
@@ -343,7 +343,7 @@ body.nav-open .nav > *{opacity:1; transform:none; transition-delay:calc(var(--n,
     display:flex; gap:10px;
     position:fixed; left:0; right:0; bottom:0; z-index:90;
     padding:10px 12px calc(10px + env(safe-area-inset-bottom));
-    background:rgba(255,255,255,.98);
+    background:#fff;
     border-top:1px solid var(--line);
     box-shadow:0 -10px 28px -16px rgba(4,24,43,.35);
   }
@@ -421,26 +421,26 @@ body.nav-open .nav > *{opacity:1; transform:none; transition-delay:calc(var(--n,
   animation:raySway var(--d) ease-in-out var(--delay) infinite alternate;
   will-change:transform;
 }
-.rays i:nth-child(1){--x:4%;  --w:16vw; --r:15deg; --o:.10; --d:26s; --delay:-4s;}
-.rays i:nth-child(2){--x:24%; --w:9vw;  --r:19deg; --o:.07; --d:21s; --delay:-11s;}
-.rays i:nth-child(3){--x:44%; --w:19vw; --r:13deg; --o:.09; --d:30s; --delay:-17s;}
-.rays i:nth-child(4){--x:66%; --w:10vw; --r:20deg; --o:.12; --d:19s; --delay:-2s;}
-.rays i:nth-child(5){--x:84%; --w:14vw; --r:16deg; --o:.07; --d:24s; --delay:-9s;}
+.rays i:nth-child(1){--x:4%;  --w:16vw; --r:15deg; --o:.17; --d:22s; --delay:-4s;}
+.rays i:nth-child(2){--x:24%; --w:9vw;  --r:19deg; --o:.12; --d:18s; --delay:-11s;}
+.rays i:nth-child(3){--x:44%; --w:19vw; --r:13deg; --o:.15; --d:25s; --delay:-17s;}
+.rays i:nth-child(4){--x:66%; --w:10vw; --r:20deg; --o:.19; --d:16s; --delay:-2s;}
+.rays i:nth-child(5){--x:84%; --w:14vw; --r:16deg; --o:.12; --d:20s; --delay:-9s;}
 @keyframes raySway{
-  from{transform:rotate(calc(var(--r) - 4deg)) translateX(-2vw);}
-  to{transform:rotate(calc(var(--r) + 4deg)) translateX(2vw);}
+  from{transform:rotate(calc(var(--r) - 6deg)) translateX(-3vw);}
+  to{transform:rotate(calc(var(--r) + 6deg)) translateX(3vw);}
 }
 @media (max-width:699px){
   .rays i:nth-child(n+4){display:none;}
   .rays i{--w:28vw;}
 }
-#ocean{position:absolute; inset:0; width:100%; height:100%; display:block; pointer-events:none; opacity:0; transition:opacity 1.6s ease;}
-#ocean.is-ready{opacity:.55;}
+#ocean{position:absolute; inset:0; width:100%; height:100%; display:block; pointer-events:none; opacity:0; transition:opacity 1.2s ease;}
+#ocean.is-ready{opacity:.9;}
 /* Keep the moving scene away from the text column: on wide screens it is
    masked down over the left (text) side, on narrow screens - where text
    fills the hero - the whole layer stays dimmer. */
 @media (min-width:900px){
-  #ocean{-webkit-mask-image:linear-gradient(90deg, rgba(0,0,0,.18) 0%, rgba(0,0,0,.18) 48%, #000 68%); mask-image:linear-gradient(90deg, rgba(0,0,0,.18) 0%, rgba(0,0,0,.18) 48%, #000 68%);}
+  #ocean{-webkit-mask-image:linear-gradient(90deg, rgba(0,0,0,.4) 0%, rgba(0,0,0,.4) 46%, #000 64%); mask-image:linear-gradient(90deg, rgba(0,0,0,.4) 0%, rgba(0,0,0,.4) 46%, #000 64%);}
   #ocean.is-ready{opacity:1;}
 }
 
@@ -751,7 +751,7 @@ body.page{display:flex; flex-direction:column; min-height:100vh; min-height:100d
 body.page > main{flex:1 0 auto;}
 .legal-header{
   position:sticky; top:0; z-index:100;
-  background:rgba(255,255,255,.98);
+  background:#fff;
   border-bottom:1px solid var(--line);
   box-shadow:0 10px 30px -22px rgba(4,24,43,.35);
   color:var(--ink);
@@ -876,17 +876,17 @@ main:focus{outline:none;}
 .hero-swell{
   position:absolute; left:0; right:0; bottom:-1px; z-index:1;
   height:clamp(48px, 7vw, 112px); overflow:hidden; pointer-events:none;
-  opacity:.22;
+  opacity:.35;
 }
 .hero-swell svg{
   display:block; width:200%; height:100%;
-  animation:swell 48s linear infinite;
+  animation:swell 34s linear infinite;
 }
 @keyframes swell{from{transform:translate3d(0,0,0);} to{transform:translate3d(-50%,0,0);}}
 
 /* B: occasional rising bubbles in the free margins of the contact band */
 .contact-bubbles{display:none;}
-@media (min-width:1180px){
+@media (min-width:1100px){
   .contact-bubbles{display:block; position:absolute; inset:0; pointer-events:none; overflow:hidden;}
   .contact-bubbles i{
     position:absolute; bottom:-24px; width:10px; height:10px; border-radius:50%;
@@ -954,4 +954,16 @@ html.motion-paused .hero .btn-primary::after{animation-play-state:paused !import
   .step-card p{letter-spacing:0; line-height:1.5;}
   .callout.exam-note{letter-spacing:0; line-height:1.6;}
   .page-hero h1{letter-spacing:-.005em; line-height:1.25;}
+}
+
+/* Dot separators: hidden only where the line breaks right after them (dots.js) */
+.dsep.is-break .dot{visibility:hidden;}
+
+/* ---------- Phones: a little more letter-spacing for the bold display face ---------- */
+@media (max-width:599px){
+  .btn, .mobile-bar a, .nav-link, .brand-text strong, .brand-link strong{letter-spacing:.005em;}
+  .tile a, .tile .value{letter-spacing:.01em; line-height:1.45; font-size:1.06rem;}
+  .tile .value{line-height:1.6;}
+  .region-tag{line-height:1.5;}
+  .footer-copy, .site-footer p{line-height:1.6;}
 }

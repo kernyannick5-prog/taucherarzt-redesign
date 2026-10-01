@@ -27,17 +27,17 @@
     var low = (navigator.hardwareConcurrency || 8) <= 4;
     var lean = small || low;
     return {
-      particles: small ? 12 : (low ? 26 : 44),
-      bubbles: small ? 3 : (low ? 5 : 7),
-      fish: small ? 3 : (low ? 4 : 6),
-      school: small ? 0 : (low ? 5 : 7),
+      particles: small ? 22 : (low ? 36 : 60),
+      bubbles: small ? 6 : (low ? 8 : 11),
+      fish: small ? 4 : (low ? 5 : 7),
+      school: small ? 5 : (low ? 6 : 8),
       lean: lean
     };
   }
 
   function makeFish(d) {
-    var size = 16 + d * 26;                       /* far = small, near = larger */
-    var crossing = (90 - d * 48) * rand(0.9, 1.1); /* seconds, far = slower */
+    var size = 20 + d * 34;                       /* far = small, near = larger */
+    var crossing = (62 - d * 26) * rand(0.9, 1.1); /* seconds, far = slower */
     var dir = Math.random() < 0.5 ? -1 : 1;
     return {
       d: d, size: size, dir: dir,
@@ -46,8 +46,8 @@
       y0: rand(0.12, 0.74) * H,
       bobAmp: rand(5, 13) * (0.6 + d), bobFreq: rand(0.12, 0.2), bobPh: rand(0, 6.28),
       tailFreq: rand(1.6, 2.4) + d * 0.6, tailPh: rand(0, 6.28),
-      alpha: 0.12 + d * 0.13,
-      rgb: Math.round(70 + d * 25) + ',' + Math.round(180 + d * 32) + ',' + Math.round(200 + d * 24),
+      alpha: 0.24 + d * 0.2,
+      rgb: Math.round(110 + d * 40) + ',' + Math.round(205 + d * 25) + ',' + Math.round(220 + d * 20),
       y: 0, vy: 0
     };
   }
@@ -70,13 +70,13 @@
     particles = []; bubbles = []; fish = []; schools = [];
     for (i = 0; i < c.particles; i++) {
       particles.push({
-        bx: rand(0, W), y: rand(0, H), r: rand(0.6, 1.8),
-        vy: rand(3, 9), a: rand(0.08, 0.3), amp: rand(4, 14), sp: rand(0.1, 0.35), ph: rand(0, 6.28), x: 0
+        bx: rand(0, W), y: rand(0, H), r: rand(0.8, 2.2),
+        vy: rand(3, 9), a: rand(0.18, 0.5), amp: rand(4, 14), sp: rand(0.1, 0.35), ph: rand(0, 6.28), x: 0
       });
     }
     for (i = 0; i < c.bubbles; i++) {
       bubbles.push({
-        bx: rand(0, W), y: rand(0.2, 1.2) * H, r: rand(2, 6),
+        bx: rand(0, W), y: rand(0.2, 1.2) * H, r: rand(2.5, 7),
         vy: rand(14, 30), amp: rand(5, 13), sp: rand(0.5, 1.1), ph: rand(0, 6.28), x: 0
       });
     }
@@ -176,7 +176,7 @@
         m = s.members[j];
         mx = s.x + m.dx + Math.sin(clock * 0.4 + m.ph) * 6;
         my = s.y0 + m.dy + Math.sin(clock * 0.5 + s.ph + m.ph) * 8;
-        fishShape(mx, my, m.s, s.dir, 0, Math.sin(clock * 3.2 + m.tp) * 0.35, 'rgba(130,215,228,0.09)');
+        fishShape(mx, my, m.s, s.dir, 0, Math.sin(clock * 3.2 + m.tp) * 0.35, 'rgba(150,225,236,0.2)');
       }
     }
 
@@ -188,11 +188,11 @@
       ctx.arc(b.x, b.y, b.r, 0, 6.2832);
       ctx.fillStyle = 'rgba(255,255,255,0.03)';
       ctx.fill();
-      ctx.strokeStyle = 'rgba(190,238,246,0.3)';
+      ctx.strokeStyle = 'rgba(200,242,248,0.5)';
       ctx.stroke();
       ctx.beginPath();
       ctx.arc(b.x, b.y, b.r * 0.62, -2.5, -1.6);
-      ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+      ctx.strokeStyle = 'rgba(255,255,255,0.6)';
       ctx.stroke();
     }
     ctx.globalAlpha = 1;
@@ -264,7 +264,7 @@
     window.setTimeout(function () {
       if ('requestIdleCallback' in window) window.requestIdleCallback(init, { timeout: 2000 });
       else init();
-    }, 1200);
+    }, 300);
   }
   if (document.readyState === 'complete') schedule();
   else window.addEventListener('load', schedule);
