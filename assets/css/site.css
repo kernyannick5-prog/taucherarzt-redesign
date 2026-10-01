@@ -721,7 +721,9 @@ html.js .reveal:not(.is-visible){opacity:0; transform:translateY(16px);}
 }
 .tile a{display:inline-flex; align-items:center; min-height:44px; border-bottom:1.5px solid rgba(95,212,224,.8); transition:color .2s ease, border-color .2s ease;}
 .tile a:hover{color:var(--cyan); border-color:var(--cyan);}
-.tile a.tile-mail{overflow-wrap:anywhere;}
+/* the address never breaks; it scales down with its tile instead */
+.tile{container-type:inline-size;}
+.tile a.tile-mail{font-size:min(clamp(.92rem, .3rem + 3vw, 1.3rem), 7.9cqi);}
 .tile a.tile-tel{font-variant-numeric:tabular-nums;}
 .tile .value{display:block;}
 .tile.note strong{display:block; margin-bottom:8px; font-family:var(--font-display); font-size:1.12rem; font-weight:700; color:#fff;}
@@ -926,16 +928,12 @@ html.motion-paused .hero .btn-primary::after{animation-play-state:paused !import
   .contact-bubbles{display:none !important;}
 }
 
-/* ---------- Hero overline: two clean lines, dash aligned to the first ---------- */
+/* ---------- Hero overline: one line with a dot separator ----------
+   Wide screens show "A · B" on one line; where it has to wrap, the break
+   falls after the dot and dots.js hides that dot, the dash aligns to line 1. */
 .eyebrow-hero{align-items:flex-start;}
 .eyebrow-hero::before{margin-top:.72em;}
-.eyebrow-hero .eb-part{display:block;}
-/* separator stays in the text (and for screen readers) but is not drawn, so
-   it can never dangle at a line end */
-.eyebrow-hero .eb-sep{
-  position:absolute; width:1px; height:1px; overflow:hidden;
-  clip:rect(0 0 0 0); white-space:nowrap;
-}
+@media (min-width:1000px){.hero .eyebrow-hero{letter-spacing:.13em;}}
 
 /* ---------- Phones: more air in the typography ---------- */
 @media (max-width:599px){
@@ -967,3 +965,6 @@ html.motion-paused .hero .btn-primary::after{animation-play-state:paused !import
   .region-tag{line-height:1.5;}
   .footer-copy, .site-footer p{line-height:1.6;}
 }
+
+/* Hyphenated compounds (E-Mail, Rheinland-Pfalz, ...) are never split at their hyphen */
+.nobr{white-space:nowrap;}
