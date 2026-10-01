@@ -928,12 +928,11 @@ html.motion-paused .hero .btn-primary::after{animation-play-state:paused !import
   .contact-bubbles{display:none !important;}
 }
 
-/* ---------- Hero overline: one line with a dot separator ----------
-   Wide screens show "A · B" on one line; where it has to wrap, the break
-   falls after the dot and dots.js hides that dot, the dash aligns to line 1. */
+/* ---------- Hero overline: "A · B", the dot always stays visible ---------- */
 .eyebrow-hero{align-items:flex-start;}
 .eyebrow-hero::before{margin-top:.72em;}
 @media (min-width:1000px){.hero .eyebrow-hero{letter-spacing:.13em;}}
+.eyebrow-hero .eb-sep{font-weight:800;}
 
 /* ---------- Phones: more air in the typography ---------- */
 @media (max-width:599px){
