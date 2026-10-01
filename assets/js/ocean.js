@@ -29,7 +29,7 @@
     return {
       particles: small ? 12 : (low ? 26 : 44),
       bubbles: small ? 3 : (low ? 5 : 7),
-      fish: small ? 2 : (low ? 3 : 5),
+      fish: small ? 3 : (low ? 4 : 6),
       school: small ? 0 : (low ? 5 : 7),
       lean: lean
     };
@@ -46,7 +46,7 @@
       y0: rand(0.12, 0.74) * H,
       bobAmp: rand(5, 13) * (0.6 + d), bobFreq: rand(0.12, 0.2), bobPh: rand(0, 6.28),
       tailFreq: rand(1.6, 2.4) + d * 0.6, tailPh: rand(0, 6.28),
-      alpha: 0.10 + d * 0.12,
+      alpha: 0.12 + d * 0.13,
       rgb: Math.round(70 + d * 25) + ',' + Math.round(180 + d * 32) + ',' + Math.round(200 + d * 24),
       y: 0, vy: 0
     };

@@ -870,3 +870,88 @@ html.motion-paused .ring-ticks, html.motion-paused .ping, html.motion-paused .ba
 }
 
 main:focus{outline:none;}
+
+/* ---------- Extra ambient motion (transform/opacity only, GPU friendly) ---------- */
+/* A: slow swell drifting behind the hero wave edge */
+.hero-swell{
+  position:absolute; left:0; right:0; bottom:-1px; z-index:1;
+  height:clamp(48px, 7vw, 112px); overflow:hidden; pointer-events:none;
+  opacity:.22;
+}
+.hero-swell svg{
+  display:block; width:200%; height:100%;
+  animation:swell 48s linear infinite;
+}
+@keyframes swell{from{transform:translate3d(0,0,0);} to{transform:translate3d(-50%,0,0);}}
+
+/* B: occasional rising bubbles in the free margins of the contact band */
+.contact-bubbles{display:none;}
+@media (min-width:1180px){
+  .contact-bubbles{display:block; position:absolute; inset:0; pointer-events:none; overflow:hidden;}
+  .contact-bubbles i{
+    position:absolute; bottom:-24px; width:10px; height:10px; border-radius:50%;
+    border:1px solid rgba(190,238,246,.35); background:rgba(255,255,255,.04);
+    opacity:0; animation:rise 18s linear infinite;
+  }
+  .contact-bubbles i:nth-child(1){left:3.5%; animation-delay:-2s;}
+  .contact-bubbles i:nth-child(2){left:6.5%; width:6px; height:6px; animation-duration:22s; animation-delay:-11s;}
+  .contact-bubbles i:nth-child(3){left:9%; width:8px; height:8px; animation-duration:26s; animation-delay:-6s;}
+  .contact-bubbles i:nth-child(4){right:4%; animation-duration:20s; animation-delay:-15s;}
+  .contact-bubbles i:nth-child(5){right:7.5%; width:6px; height:6px; animation-duration:24s; animation-delay:-4s;}
+  .contact-bubbles i:nth-child(6){right:10%; width:8px; height:8px; animation-duration:28s; animation-delay:-19s;}
+}
+@keyframes rise{
+  0%{transform:translate3d(0,0,0); opacity:0;}
+  10%{opacity:1;}
+  50%{transform:translate3d(8px,-45vh,0);}
+  85%{opacity:.8;}
+  100%{transform:translate3d(-4px,-90vh,0); opacity:0;}
+}
+
+/* C: a soft light glint across the hero appointment button every few seconds */
+.hero .btn-primary{position:relative; overflow:hidden; isolation:isolate;}
+.hero .btn-primary::after{
+  content:""; position:absolute; top:0; bottom:0; left:0; width:45%; z-index:-1;
+  background:linear-gradient(100deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.55) 50%, rgba(255,255,255,0) 100%);
+  transform:translate3d(-120%,0,0) skewX(-18deg);
+  animation:glint 7s ease-in-out 2.5s infinite;
+  pointer-events:none;
+}
+@keyframes glint{0%,78%{transform:translate3d(-120%,0,0) skewX(-18deg);} 92%,100%{transform:translate3d(320%,0,0) skewX(-18deg);}}
+
+html.motion-paused .hero-swell svg, html.motion-paused .contact-bubbles i,
+html.motion-paused .hero .btn-primary::after{animation-play-state:paused !important;}
+@media (prefers-reduced-motion: reduce){
+  .hero-swell svg, .hero .btn-primary::after{animation:none !important;}
+  .contact-bubbles{display:none !important;}
+}
+
+/* ---------- Hero overline: two clean lines, dash aligned to the first ---------- */
+.eyebrow-hero{align-items:flex-start;}
+.eyebrow-hero::before{margin-top:.72em;}
+.eyebrow-hero .eb-part{display:block;}
+/* separator stays in the text (and for screen readers) but is not drawn, so
+   it can never dangle at a line end */
+.eyebrow-hero .eb-sep{
+  position:absolute; width:1px; height:1px; overflow:hidden;
+  clip:rect(0 0 0 0); white-space:nowrap;
+}
+
+/* ---------- Phones: more air in the typography ---------- */
+@media (max-width:599px){
+  h1,h2,h3{letter-spacing:-.005em;}
+  .hero h1{
+    font-size:clamp(1.3rem, .35rem + 5vw, 1.6rem);
+    line-height:1.28; letter-spacing:-.005em;
+    margin:16px 0 20px;
+  }
+  .hero .lede{font-size:1rem; line-height:1.78;}
+  .hero .eyebrow{letter-spacing:.12em; line-height:1.65;}
+  .section-head h2{line-height:1.25;}
+  .section-head .lede{line-height:1.75;}
+  .qual-body h3{line-height:1.35;}
+  .qual-body p{line-height:1.7;}
+  .step-card p{letter-spacing:0; line-height:1.5;}
+  .callout.exam-note{letter-spacing:0; line-height:1.6;}
+  .page-hero h1{letter-spacing:-.005em; line-height:1.25;}
+}
