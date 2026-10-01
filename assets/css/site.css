@@ -953,9 +953,6 @@ html.motion-paused .hero .btn-primary::after{animation-play-state:paused !import
   .page-hero h1{letter-spacing:-.005em; line-height:1.25;}
 }
 
-/* Dot separators: hidden only where the line breaks right after them (dots.js) */
-.dsep.is-break .dot{visibility:hidden;}
-
 /* ---------- Phones: a little more letter-spacing for the bold display face ---------- */
 @media (max-width:599px){
   .btn, .mobile-bar a, .nav-link, .brand-text strong, .brand-link strong{letter-spacing:.005em;}
