@@ -9,7 +9,11 @@
 <link rel="canonical" href="https://taucherarzt.online/">
 <link rel="icon" href="favicon-48.png" type="image/png" sizes="48x48">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta name="theme-color" content="#146687">
+<meta name="theme-color" content="#04182b">
+<link rel="preload" href="assets/fonts/manrope-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/site.css">
+<script>document.documentElement.classList.add('js');setTimeout(function(){if(!window.__siteReady)document.documentElement.classList.remove('js');},2500);</script>
 
 <!-- Open Graph -->
 <meta property="og:type" content="website">
@@ -76,522 +80,108 @@
   ]
 }
 </script>
-<style>
-  :root{
-    --font-display: Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", "Noto Serif", serif;
-    --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    --font-mono: ui-monospace, "SFMono-Regular", Consolas, "Cascadia Mono", monospace;
-
-    --rail-w: 272px;
-    --rail-head-h: 72px;
-
-    /* Deep indigo / warm gold palette - distinct hue family from the
-       previous teal + cream + coral redesigns. */
-    --paper:#f3f4fb;
-    --surface-raised:#ffffff;
-    --surface-line:#e1e1f2;
-    --ink:#1a1a30;
-    --ink-soft:#5b5b7c;
-    /* Ocean blue/teal, matched to the logo photo's sea-blue tones
-       instead of the earlier indigo/magenta accent. */
-    --brand-900:#0b2e42;
-    --brand-700:#146687;
-    --brand-500:#2f9dc4;
-    --brand-300:#bfe6f2;
-    --accent:#e2a10d;
-    --accent-ink:#2a1c02;
-    --focus:#146687;
-    --shadow-1: 0 1px 2px rgba(20,18,58,.07), 0 12px 30px -16px rgba(20,18,58,.28);
-    /* Always render the light palette, regardless of the device's dark
-       mode setting - the owner wants a consistent white background on
-       every device, not an automatic dark theme. */
-    color-scheme: light;
-  }
-
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth; overflow-x:hidden;}
-  @media (prefers-reduced-motion: reduce){
-    html{scroll-behavior:auto;}
-    *{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important;}
-  }
-  body{
-    margin:0;
-    background:var(--paper);
-    color:var(--ink);
-    font-family:var(--font-sans);
-    font-size:16px;
-    line-height:1.65;
-    -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
-    /* Long German compound words (e.g. "Vorsorgeuntersuchungen") must stay
-       fully intact - no hyphenation and no mid-word breaks, ever. Left at
-       the default overflow-wrap ("normal", i.e. only break at whitespace)
-       so a word can never be split - not even as a "last resort", since
-       overflow-wrap:break-word can still fire in combination with
-       text-wrap:balance even when a word would fit whole on its own line.
-       Fluid font-size + spacing on the specific elements that hold long
-       words is what keeps them from overflowing at narrow widths instead. */
-  }
-  h1,h2,h3{
-    font-family:var(--font-display);
-    font-weight:600;
-    color:var(--ink);
-    text-wrap:balance;
-    margin:0;
-    letter-spacing:0;
-  }
-  p{margin:0;}
-  a{color:var(--brand-700);}
-  a:focus-visible, button:focus-visible, summary:focus-visible, [tabindex]:focus-visible{
-    outline:3px solid var(--focus);
-    outline-offset:3px;
-    border-radius:4px;
-  }
-  .mono{font-family:var(--font-mono); letter-spacing:.02em;}
-  .eyebrow{
-    font-family:var(--font-sans);
-    font-size:.78rem;
-    letter-spacing:.14em;
-    text-transform:uppercase;
-    color:var(--brand-500);
-    font-weight:700;
-  }
-  .wrap{
-    max-width:920px;
-    margin-inline:auto;
-    padding-inline:clamp(20px, 5vw, 48px);
-  }
-  .visually-hidden{
-    position:absolute; width:1px; height:1px; overflow:hidden;
-    clip:rect(0 0 0 0); white-space:nowrap; border:0; padding:0; margin:-1px;
-  }
-  .skip-link{
-    position:absolute; left:12px; top:-60px;
-    background:var(--brand-700); color:#fff;
-    padding:10px 16px; border-radius:6px; z-index:200;
-    transition:top .15s ease;
-    font-weight:600; text-decoration:none;
-  }
-  .skip-link:focus{top:12px;}
-
-  .cta{
-    display:inline-flex; align-items:center; justify-content:center; gap:8px;
-    background:var(--accent); color:var(--accent-ink);
-    text-decoration:none; font-weight:700; font-size:.94rem;
-    min-height:44px; padding:11px 22px; border-radius:9px;
-    box-shadow:var(--shadow-1);
-    transition:transform .15s ease, box-shadow .15s ease;
-    white-space:nowrap;
-  }
-  .cta:hover{transform:translateY(-1px);}
-  .cta:visited{color:var(--accent-ink);}
-  .link-quiet{
-    font-weight:600; text-decoration:none; color:var(--ink);
-    border-bottom:1px solid var(--surface-line);
-    padding-bottom:2px;
-  }
-  .link-quiet:hover{border-color:var(--brand-500);}
-
-  /* ---------- Sidebar navigation rail ----------
-     A fixed left rail on desktop replaces the classic sticky top bar; on
-     mobile it collapses to a slim top bar plus a full-screen overlay
-     drawer, rather than a small dropdown panel. */
-  .rail{
-    position:sticky; top:0; z-index:50;
-    /* Solid, not translucent/blurred: a backdrop-filter here would create a
-       new containing block for the fixed-position mobile nav drawer inside
-       it, collapsing the drawer to this header's own (tiny) height instead
-       of the full viewport - i.e. it silently breaks the mobile menu. */
-    background:var(--surface-raised);
-    border-bottom:1px solid var(--surface-line);
-  }
-  .rail-head{
-    min-height:var(--rail-head-h);
-    display:flex; align-items:center; justify-content:space-between; gap:16px;
-    padding-inline:clamp(20px,5vw,32px);
-  }
-  .brand{display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--ink);}
-  .brand img{
-    width:38px; height:38px; border-radius:10px; object-fit:cover;
-    box-shadow:var(--shadow-1);
-  }
-  .brand-text{display:flex; flex-direction:column; line-height:1.15;}
-  .brand-text strong{font-family:var(--font-display); font-size:1.08rem; font-weight:600;}
-  .brand-text span{font-size:.74rem; color:var(--ink-soft);}
-
-  .menu-toggle{
-    background:none; border:1px solid var(--surface-line);
-    border-radius:8px; width:44px; height:44px; padding:0; cursor:pointer;
-    flex:none;
-  }
-  .menu-toggle span{
-    display:block; width:20px; height:2px; background:var(--ink); margin:5px auto;
-    transition:transform .2s ease, opacity .2s ease;
-  }
-  .menu-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
-  .menu-toggle.open span:nth-child(2){opacity:0;}
-  .menu-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
-
-  .rail-nav{
-    position:fixed; top:var(--rail-head-h); left:0; right:0; bottom:0;
-    background:var(--surface-raised);
-    display:flex; flex-direction:column; gap:6px;
-    padding:18px;
-    transform:translateX(100%);
-    transition:transform .25s ease;
-    overflow-y:auto;
-    z-index:45;
-  }
-  .rail-nav.open{transform:translateX(0);}
-  .rail-nav a{
-    display:flex; align-items:center; min-height:52px; padding:0 14px;
-    font-weight:700; font-size:1.1rem; text-decoration:none; color:var(--ink);
-    border-radius:10px;
-  }
-  .rail-nav a:hover{background:var(--surface-line);}
-  .rail-nav a[aria-current="page"]{color:var(--brand-700); background:color-mix(in srgb, var(--brand-500) 14%, transparent);}
-  .rail-nav .cta{margin-top:10px; justify-content:center;}
-  .rail-phone{
-    margin-top:auto; display:flex; align-items:center; justify-content:center;
-    min-height:52px; font-weight:700; text-decoration:none; color:var(--ink-soft);
-    border-top:1px solid var(--surface-line); padding-top:16px;
-  }
-
-  /* ---------- Page content offset (desktop sidebar mode) ---------- */
-  .page{}
-
-  /* ---------- Mobile quick-action bar ----------
-     A phone can call a number directly - a genuinely mobile-specific
-     capability - so this stays even though the drawer nav also has a CTA. */
-  .mobile-bar{display:none;}
-
-  /* ---------- Hero: split-screen with a soft blob visual ---------- */
-  .hero{padding-block:clamp(40px,7vw,88px);}
-  .hero-grid{
-    display:grid; grid-template-columns:minmax(0,1.15fr) minmax(200px,.85fr);
-    gap:clamp(28px,5vw,64px); align-items:center;
-  }
-  .hero h1{
-    /* Largest text on the page and the most likely to contain a long
-       German compound word (e.g. "Vorsorgeuntersuchungen"), so it scales
-       down further at narrow widths than other headings to keep every
-       word whole without overflowing. */
-    font-size:clamp(1.5rem, 6.8vw, 3.1rem);
-    line-height:1.18;
-    margin-block:14px 18px;
-  }
-  .hero .lede{font-size:1.1rem; color:var(--ink-soft); max-width:58ch; margin-bottom:26px;}
-  .hero-actions{display:flex; flex-wrap:wrap; gap:16px; align-items:center; margin-bottom:28px;}
-  .region-tag{
-    display:inline-flex; align-items:center; gap:8px;
-    padding:9px 14px;
-    background:var(--surface-raised); border:1px solid var(--surface-line);
-    border-radius:999px; font-size:.86rem; color:var(--ink-soft);
-    box-shadow:var(--shadow-1);
-  }
-  .region-tag .mono{color:var(--brand-700); font-weight:600;}
-
-  .hero-visual{
-    display:flex;
-    width:100%; max-width:min(420px,82vw); margin-inline:auto;
-  }
-  .hero-blob-wrap{position:relative; aspect-ratio:1/1; width:100%;}
-  .hero-blob{
-    position:absolute; inset:0;
-    background:linear-gradient(155deg, var(--brand-700), var(--brand-500));
-    border-radius:63% 37% 54% 46% / 43% 37% 63% 57%;
-    box-shadow:var(--shadow-1);
-  }
-  .hero-blob::after{
-    content:""; position:absolute; inset:0; border-radius:inherit;
-    background-image:radial-gradient(circle, rgba(255,255,255,.5) 1.5px, transparent 1.5px);
-    background-size:20px 20px;
-    opacity:.22;
-    mix-blend-mode:overlay;
-  }
-  /* Credential badges float directly on the violet blob graphic, at
-     opposite corners so they never overlap each other or run past the
-     blob's edge at any size. */
-  .hero-float-card{
-    position:absolute;
-    display:inline-flex; align-items:center; gap:8px;
-    background:var(--surface-raised); border:1px solid var(--surface-line);
-    border-radius:999px; padding:10px 16px 10px 12px;
-    box-shadow:var(--shadow-1);
-    font-weight:700; font-size:.82rem; line-height:1.3; color:var(--ink);
-    max-width:min(74%, 260px);
-  }
-  .hero-float-card.card-1{top:7%; left:6%;}
-  .hero-float-card.card-2{bottom:7%; right:6%;}
-  .hero-float-card svg{
-    flex:0 0 auto; width:17px; height:17px; color:var(--brand-700);
-  }
-
-  /* ---------- Sections ---------- */
-  section{padding-block:clamp(48px, 7vw, 88px);}
-  section + section{border-top:1px solid var(--surface-line);}
-  .section-head{max-width:64ch; margin-bottom:clamp(28px,5vw,44px);}
-  .section-head h2{font-size:clamp(1.5rem, 2.8vw, 2rem); margin-top:10px;}
-  .section-head .lede{color:var(--ink-soft); font-size:1.05rem; margin-top:12px; max-width:58ch;}
-
-  .reveal{transition:opacity .6s ease, transform .6s ease;}
-  .reveal.is-hidden{opacity:0; transform:translateY(14px);}
-  @media (prefers-reduced-motion: reduce){
-    .reveal{transition:none;}
-    .reveal.is-hidden{opacity:1; transform:none;}
-  }
-
-  /* Qualifikation - alternating magazine-style rows */
-  .qual-row{
-    display:flex; flex-wrap:wrap; align-items:center;
-    gap:clamp(18px,4vw,44px);
-    padding-block:clamp(26px,4vw,38px);
-    border-top:1px solid var(--surface-line);
-  }
-  .qual-row:first-child{border-top:0; padding-top:0;}
-  .qual-num{
-    flex:0 0 auto; min-width:84px;
-    font-family:var(--font-display); font-weight:600;
-    font-size:clamp(2.4rem,5.5vw,3.8rem); line-height:1;
-    color:var(--brand-500);
-  }
-  .qual-body{flex:1 1 260px;}
-  .qual-body h3{font-size:1.12rem; font-weight:700; font-family:var(--font-sans); margin-bottom:8px;}
-  .qual-body p{color:var(--ink-soft); font-size:.98rem;}
-  .qual-row:nth-child(even) .qual-num{order:2;}
-  .qual-row:nth-child(even) .qual-body{order:1;}
-
-  /* Praxisspektrum - horizontal scroll-snap strip */
-  .steps-head-row{
-    display:flex; align-items:flex-end; justify-content:space-between; gap:16px;
-    flex-wrap:wrap;
-  }
-  .steps-controls{display:flex; gap:10px;}
-  .steps-controls button{
-    width:44px; height:44px; border-radius:50%;
-    border:1px solid var(--surface-line); background:var(--surface-raised);
-    color:var(--ink); font-size:1.2rem; cursor:pointer;
-    display:flex; align-items:center; justify-content:center;
-  }
-  .steps-controls button:hover{background:var(--surface-line);}
-  .steps-strip{
-    list-style:none; margin:24px 0 0; padding-block:6px 22px;
-    display:flex; gap:20px;
-    overflow-x:auto; scroll-snap-type:x mandatory;
-    margin-inline:calc(-1 * clamp(20px,5vw,48px));
-    padding-inline:clamp(20px,5vw,48px);
-    scroll-padding-inline:clamp(20px,5vw,48px);
-    -webkit-overflow-scrolling:touch;
-  }
-  .step-card{
-    scroll-snap-align:start; flex:0 0 auto;
-    width:min(270px,76vw);
-    background:var(--surface-raised); border:1px solid var(--surface-line);
-    border-radius:18px; padding:26px 22px;
-    box-shadow:var(--shadow-1);
-    display:flex; flex-direction:column; gap:14px;
-  }
-  .step-card .num{font-family:var(--font-display); font-weight:600; font-size:2.2rem; color:var(--brand-500);}
-  .step-card p{font-size:1.02rem; font-weight:600;}
-  .scroll-hint{font-size:.82rem; color:var(--ink-soft); margin-top:2px;}
-  .exam-note{
-    margin-top:6px; font-size:1.08rem; font-weight:600; color:var(--ink);
-    border-left:3px solid var(--brand-500); padding-left:18px;
-  }
-
-  /* Kontakt - full-bleed bold band with tile grid (no card-in-card split) */
-  .contact-band{
-    background:linear-gradient(155deg, var(--brand-900), var(--brand-700));
-    color:#f1f0fb;
-  }
-  .contact-band .eyebrow{color:var(--brand-300);}
-  /* The generic h1,h2,h3 rule sets a fixed dark --ink color that wins over
-     inherited text color, so on this section's dark gradient background
-     the heading needs its own explicit light color or it's unreadable. */
-  .contact-band .section-head h2{color:#f1f0fb;}
-  .contact-band .section-head .lede{color:#c9c6ec;}
-  .contact-grid{
-    display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
-    gap:18px; margin-bottom:28px;
-  }
-  .tile{
-    background:rgba(255,255,255,.06);
-    border:1px solid rgba(255,255,255,.16);
-    border-radius:16px; padding:22px 22px;
-  }
-  .tile.note{grid-column:1 / -1;}
-  .tile .label{
-    display:block; font-family:var(--font-mono); font-size:.72rem;
-    letter-spacing:.1em; text-transform:uppercase; color:#b9b6e6;
-    margin-bottom:8px;
-  }
-  .tile a, .tile > span{color:#f1f0fb; font-weight:700; font-size:1.1rem; text-decoration:none;}
-  .tile a:hover{color:var(--accent);}
-  .tile.note strong{display:block; margin-bottom:6px; font-size:1.02rem;}
-  .tile.note p{color:#d6d4f0; font-size:.98rem; font-weight:400;}
-  .contact-band .cta{background:var(--accent); color:var(--accent-ink);}
-
-  /* Footer - minimal, no longer a matching dark bookend */
-  footer.site{
-    background:var(--paper);
-    color:var(--ink-soft);
-    padding-block:32px;
-    border-top:1px solid var(--surface-line);
-  }
-  .footer-row{
-    display:flex; flex-wrap:wrap; gap:14px 26px; justify-content:space-between; align-items:center;
-  }
-  .footer-row p{color:var(--ink-soft); font-size:.86rem;}
-  .footer-links{display:flex; gap:20px; flex-wrap:wrap;}
-  .footer-links a{color:var(--ink-soft); font-size:.86rem; text-decoration:none;}
-  .footer-links a:hover{color:var(--brand-700);}
-
-  /* ---------- Hero stacks below 900px ----------
-     Needs to match the enforced 240px floor on the visual column below
-     (see .hero-grid) - at in-between widths like 768px, the two-column
-     layout can't fit both a readable heading and that floor, so it
-     stacks earlier, at the same breakpoint as the sidebar nav. */
-  @media (max-width:900px){
-    .hero-grid{grid-template-columns:minmax(0,1fr);}
-    .hero-visual{order:-1; max-width:min(320px,70vw);}
-  }
-
-  /* On the narrowest phones, ease the hero lede paragraph's font-size down
-     slightly - it contains the single longest word on the page
-     ("Tauchtauglichkeitsuntersuchungen") and needs a little more room per
-     character to stay whole without overflowing. */
-  @media (max-width:400px){
-    .hero .lede{font-size:1rem;}
-  }
-
-  /* ---------- Qualification rows stack below 700px ---------- */
-  @media (max-width:700px){
-    .qual-row{flex-direction:column; align-items:flex-start; gap:8px; padding-block:16px;}
-    .qual-row:nth-child(even) .qual-num, .qual-row:nth-child(even) .qual-body{order:0;}
-    .qual-num{font-size:1.8rem; min-width:auto;}
-    /* .qual-body's flex-basis:260px is a min-WIDTH on desktop's row axis,
-       but once .qual-row stacks to flex-direction:column here, the same
-       flex-basis becomes a min-HEIGHT instead, forcing ~260px of empty
-       space under every short entry. */
-    .qual-body{flex:1 1 auto;}
-  }
-
-  @media (max-width:600px){
-    .steps-controls{display:none;}
-  }
-
-  /* ---------- Mobile layout (<900px): top bar + full-screen drawer ---------- */
-  @media (max-width:899px){
-    body{padding-bottom:calc(72px + env(safe-area-inset-bottom));}
-    .mobile-bar{
-      display:flex;
-      position:fixed; left:0; right:0; bottom:0; z-index:60;
-      padding:10px 12px calc(10px + env(safe-area-inset-bottom));
-      gap:10px;
-      background:var(--surface-raised);
-      border-top:1px solid var(--surface-line);
-      box-shadow:0 -8px 20px -12px rgba(20,18,58,.28);
-    }
-    .mobile-bar a{
-      flex:1;
-      display:flex; align-items:center; justify-content:center; gap:8px;
-      min-height:48px;
-      text-decoration:none;
-      font-weight:700; font-size:.94rem;
-      border-radius:10px;
-    }
-    .mobile-bar a.call{color:var(--ink); background:var(--paper); border:1px solid var(--surface-line);}
-    .mobile-bar a.book{color:var(--accent-ink); background:var(--accent);}
-  }
-
-  /* ---------- Desktop layout (>=900px): fixed sidebar rail ---------- */
-  @media (min-width:900px){
-    .rail{
-      position:fixed; inset:0 auto 0 0; width:var(--rail-w);
-      display:flex; flex-direction:column;
-      border-bottom:0; border-right:1px solid var(--surface-line);
-    }
-    .rail-head{min-height:auto; flex-direction:column; align-items:flex-start; gap:18px; padding:28px 26px 8px;}
-    .menu-toggle{display:none;}
-    .rail-nav{
-      position:static; inset:auto; transform:none;
-      flex:1; display:flex; padding:8px 26px 26px;
-    }
-    .page{margin-left:var(--rail-w);}
-  }
-</style>
 </head>
 <body>
 
 <a class="skip-link" href="#main">Zum Inhalt springen</a>
 
-<header class="rail" id="rail">
-  <div class="rail-head">
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
     <a class="brand" href="#top">
-      <img src="logo.png"
-        alt="" width="38" height="38" decoding="async">
+      <img src="logo.png" alt="" width="40" height="40" decoding="async">
       <span class="brand-text">
         <strong>Dr. med. Patrick M. Kern</strong>
         <span>Taucherarzt&nbsp;&middot;&nbsp;Tauchmedizin</span>
       </span>
     </a>
-    <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="primaryNav">
-      <span></span><span></span><span></span>
+    <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="primaryNav">
+      <span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>
       <span class="visually-hidden">Menü öffnen</span>
     </button>
+    <nav class="nav" id="primaryNav" aria-label="Hauptnavigation">
+      <a class="nav-link" href="#top" aria-current="page">Startseite</a>
+      <a class="nav-link" href="#qualifikation">Qualifikation</a>
+      <a class="nav-link" href="#praxisspektrum">Praxisspektrum</a>
+      <a class="nav-link" href="#kontakt">Kontakt</a>
+      <a class="btn btn-primary" href="mailto:docdeep007@t-online.de">Termin anfragen</a>
+      <a class="nav-phone" href="tel:+491726816671"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h3.5l1.8 4.5-2.2 1.4a11 11 0 0 0 5.5 5.5l1.4-2.2L20 15v3.5a1.5 1.5 0 0 1-1.6 1.5C10.8 19.5 4.5 13.2 4 5.6A1.5 1.5 0 0 1 5 4Z"/></svg><span class="nav-phone-num">0172&nbsp;6816671</span></a>
+    </nav>
   </div>
-  <nav class="rail-nav" id="primaryNav" aria-label="Hauptnavigation">
-    <a href="#top" aria-current="page">Startseite</a>
-    <a href="#qualifikation">Qualifikation</a>
-    <a href="#praxisspektrum">Praxisspektrum</a>
-    <a href="#kontakt">Kontakt</a>
-    <a class="cta" href="mailto:docdeep007@t-online.de">Termin anfragen</a>
-    <a class="rail-phone mono" href="tel:+491726816671">0172&nbsp;6816671</a>
-  </nav>
 </header>
 
-<div class="page" id="pageContent">
-<main id="main">
+<main id="main" tabindex="-1">
 
   <!-- HERO / STARTSEITE -->
   <section id="top" class="hero">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="rays"><i></i><i></i><i></i><i></i><i></i></div>
+      <canvas id="ocean" aria-hidden="true"></canvas>
+    </div>
     <div class="wrap hero-grid">
       <div class="hero-text">
-        <p class="eyebrow">Tauchmedizinische Vorsorgeuntersuchungen · Tauchtauglichkeit</p>
-        <h1>Taucherarzt für tauchmedizinische Vorsorgeuntersuchungen, Tauchtauglichkeit und besondere Fragen.</h1>
-        <p class="lede">
+        <p class="eyebrow reveal">Tauchmedizinische Vorsorgeuntersuchungen · Tauchtauglichkeit</p>
+        <h1 class="reveal" style="--i:1">Taucherarzt für tauchmedizinische Vorsorgeuntersuchungen, Tauchtauglichkeit und besondere Fragen.</h1>
+        <p class="lede reveal" style="--i:2">
           Mein Name ist Dr.&nbsp;med. Patrick M. Kern. Ich bin Facharzt für Anästhesiologie,
           Intensivmedizin und Notfallmedizin und als Taucherarzt Mitglied der Deutschen
           Gesellschaft für Tauch- und Überdruckmedizin (GTÜM). Ich biete Ihnen
           Tauchtauglichkeitsuntersuchungen an und stehe für alle Fragen rund um die
           Tauchmedizin zur Verfügung.
         </p>
-        <div class="hero-actions">
-          <a class="cta" href="mailto:docdeep007@t-online.de">Termin anfragen</a>
-          <a class="link-quiet" href="#praxisspektrum">Ablauf der Untersuchung ansehen</a>
+        <div class="hero-actions reveal" style="--i:3">
+          <a class="btn btn-primary" href="mailto:docdeep007@t-online.de">Termin anfragen</a>
+          <a class="btn btn-ghost" href="#praxisspektrum">Ablauf der Untersuchung ansehen</a>
         </div>
-        <div class="region-tag">
-          <span class="mono">Raum Karlsruhe · Speyer · Ludwigshafen</span>
+        <div class="region-tag reveal" style="--i:4">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z"/><circle cx="12" cy="10" r="2.3"/></svg>
+          <span>Raum Karlsruhe · Speyer · Ludwigshafen</span>
         </div>
       </div>
       <div class="hero-visual" aria-hidden="true">
-        <div class="hero-blob-wrap">
-          <div class="hero-blob"></div>
-          <div class="hero-float-card card-1">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"></circle><path d="m8.5 12.5 2.5 2.5 4.5-5"></path></svg>
-            <span>Facharzt für Anästhesiologie</span>
-          </div>
-          <div class="hero-float-card card-2">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"></circle><path d="m8.5 12.5 2.5 2.5 4.5-5"></path></svg>
-            <span>Mitglied der GTÜM</span>
-          </div>
+        <svg class="hero-rings" viewBox="0 0 520 520" fill="none" aria-hidden="true" focusable="false">
+          <defs>
+            <radialGradient id="ringGlow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#19a7b5" stop-opacity=".3"/><stop offset="1" stop-color="#19a7b5" stop-opacity="0"/></radialGradient>
+            <radialGradient id="sweepGrad" gradientUnits="userSpaceOnUse" cx="260" cy="260" r="250"><stop offset="0" stop-color="#5fd4e0" stop-opacity="0"/><stop offset="1" stop-color="#5fd4e0" stop-opacity=".16"/></radialGradient>
+          </defs>
+          <circle cx="260" cy="260" r="250" fill="url(#ringGlow)"/>
+          <g stroke="#5fd4e0" stroke-width="1">
+            <circle cx="260" cy="260" r="250" opacity=".2"/>
+            <circle cx="260" cy="260" r="200" opacity=".24"/>
+            <circle cx="260" cy="260" r="150" opacity=".28"/>
+            <circle cx="260" cy="260" r="100" opacity=".32"/>
+            <circle cx="260" cy="260" r="52" opacity=".38"/>
+            <circle class="ring-ticks" cx="260" cy="260" r="236" stroke-width="5" stroke-dasharray="1.5 23.1" opacity=".3"/>
+            <circle cx="260" cy="260" r="176" stroke-width="7" opacity=".07"/>
+            <path d="M260 10v500M10 260h500" opacity=".12"/>
+            <path d="M83 83l354 354M437 83L83 437" opacity=".06"/>
+          </g>
+          <path class="sweep" d="M260 260V10A250 250 0 0 1 436.8 83.2Z" fill="url(#sweepGrad)"/>
+          <g fill="#5fd4e0">
+            <circle class="ping" cx="330" cy="150" r="3"/>
+            <circle class="ping" cx="170" cy="318" r="2.5"/>
+            <circle class="ping" cx="352" cy="352" r="2"/>
+          </g>
+        </svg>
+        <div class="badge badge-1">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"></circle><path d="m8.5 12.5 2.5 2.5 4.5-5"></path></svg>
+          <span>Facharzt für Anästhesiologie</span>
+        </div>
+        <div class="badge badge-2">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"></circle><path d="m8.5 12.5 2.5 2.5 4.5-5"></path></svg>
+          <span>Mitglied der GTÜM</span>
         </div>
       </div>
     </div>
+    <button type="button" class="motion-toggle" id="motionToggle" aria-pressed="false">
+      <svg class="icon-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M9 6v12M15 6v12"/></svg>
+      <svg class="icon-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M8 5.5v13l10.5-6.5Z"/></svg>
+      <span class="visually-hidden">Hintergrundanimation anhalten</span>
+    </button>
+    <svg class="hero-wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 70C220 118 440 8 700 52s520 64 740-18V120H0Z" fill="#f4f8fb" fill-opacity=".35"/><path d="M0 92C240 124 500 42 760 76s460 30 680-22V120H0Z" fill="#f4f8fb"/></svg>
   </section>
 
   <!-- QUALIFIKATION -->
-  <section id="qualifikation">
+  <section id="qualifikation" class="section qualifikation">
     <div class="wrap">
       <div class="section-head reveal">
         <p class="eyebrow">Qualifikation</p>
@@ -602,119 +192,130 @@
         </p>
       </div>
 
-      <div class="reveal">
-        <div class="qual-row">
+      <ol class="qual-grid" role="list">
+        <li class="qual reveal" style="--i:0">
           <span class="qual-num">01</span>
           <div class="qual-body">
             <h3>Facharzt für Anästhesiologie</h3>
             <p>Intensivmedizin und Notfallmedizin.</p>
           </div>
-        </div>
-        <div class="qual-row">
+          <span class="qual-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v6a4 4 0 0 0 8 0V3"/><path d="M5 3h2M13 3h2"/><path d="M10 13v1.5a4.5 4.5 0 0 0 9 0V12"/><circle cx="19" cy="10" r="2"/></svg></span>
+        </li>
+        <li class="qual reveal" style="--i:1">
           <span class="qual-num">02</span>
           <div class="qual-body">
             <h3>Mitglied der GTÜM</h3>
             <p>Deutsche Gesellschaft für Tauch- und Überdruckmedizin.</p>
           </div>
-        </div>
-        <div class="qual-row">
+          <span class="qual-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5.5"/><path d="M9 14.2 8 21l4-2.2 4 2.2-1-6.8"/><path d="m9.6 9 1.7 1.7 3.2-3.4"/></svg></span>
+        </li>
+        <li class="qual reveal" style="--i:0">
           <span class="qual-num">03</span>
           <div class="qual-body">
             <h3>CMAS3</h3>
             <p>Höchste Ausbildungsstufe des Weltverbands CMAS aus langjähriger Taucherfahrung.</p>
           </div>
-        </div>
-        <div class="qual-row">
+          <span class="qual-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h13A1.5 1.5 0 0 1 20 8.5v3.2a4 4 0 0 1-3.6 4c-1.3.1-2.2 0-2.9-.9-.5-.7-1-1.1-1.5-1.1s-1 .4-1.5 1.1c-.7.9-1.6 1-2.9.9A4 4 0 0 1 4 11.7Z"/><path d="M12 7v3.4M4 9.5H2M20 9.5h2"/></svg></span>
+        </li>
+        <li class="qual reveal" style="--i:1">
           <span class="qual-num">04</span>
           <div class="qual-body">
             <h3>Druckkammer-Erfahrung</h3>
             <p>Behandlung von Tauchunfällen auf Bandos, Malediven.</p>
           </div>
-        </div>
-        <div class="qual-row">
+          <span class="qual-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="m12 13 3.4-4"/><path d="M6.5 13h1M16.5 13h1M12 7.5v1M9 3h6"/></svg></span>
+        </li>
+        <li class="qual reveal" style="--i:0">
           <span class="qual-num">05</span>
           <div class="qual-body">
             <h3>Spezielle Schmerztherapie</h3>
             <p>Zusatzqualifikation in der Schmerzmedizin.</p>
           </div>
-        </div>
-        <div class="qual-row">
+          <span class="qual-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/><path d="M7 12h2.5l1.5-3 2 6 1.5-3H17"/></svg></span>
+        </li>
+        <li class="qual reveal" style="--i:1">
           <span class="qual-num">06</span>
           <div class="qual-body">
             <h3>Palliativmedizin</h3>
             <p>Zusatzqualifikation in der palliativmedizinischen Versorgung.</p>
           </div>
-        </div>
-        <div class="qual-row">
+          <span class="qual-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 11s-3-1.8-3-4a1.8 1.8 0 0 1 3-1.2A1.8 1.8 0 0 1 15 7c0 2.2-3 4-3 4Z"/><path d="M3 15h3l3.5 1.5h4a1.5 1.5 0 0 0 0-3H11"/><path d="m14 15 4.5-1.8a1.6 1.6 0 0 1 1.7 2.7L15 19.5 9.5 21H3"/></svg></span>
+        </li>
+        <li class="qual reveal" style="--i:0">
           <span class="qual-num">07</span>
           <div class="qual-body">
             <h3>Krankenhaushygiene</h3>
             <p>Qualifikation im Bereich Krankenhaushygiene.</p>
           </div>
-        </div>
-        <div class="qual-row">
+          <span class="qual-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5.5c0 4.2 2.8 7.6 7 9.5 4.2-1.9 7-5.3 7-9.5V6Z"/><path d="M12 9c-1.6 2-2.5 3.2-2.5 4.4a2.5 2.5 0 0 0 5 0C14.5 12.2 13.6 11 12 9Z"/></svg></span>
+        </li>
+        <li class="qual reveal" style="--i:1">
           <span class="qual-num">08</span>
           <div class="qual-body">
             <h3>Leitender Notarzt &amp; Telenotarzt</h3>
             <p>Qualifikation als Leitender Notarzt und Telenotarzt.</p>
           </div>
-        </div>
-      </div>
+          <span class="qual-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18v-5a5 5 0 0 1 10 0v5"/><path d="M5 18h14v3H5Z"/><path d="M12 3v2M4.5 6.5 6 8M19.5 6.5 18 8M12 9v4"/></svg></span>
+        </li>
+      </ol>
     </div>
   </section>
 
   <!-- PRAXISSPEKTRUM -->
-  <section id="praxisspektrum">
+  <section id="praxisspektrum" class="section praxis">
+    <svg class="praxis-line" viewBox="0 0 1440 48" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 24c120-22 240-22 360 0s240 22 360 0 240-22 360 0 240 22 360 0" fill="none" stroke="currentColor" stroke-width="1.2" vector-effect="non-scaling-stroke"/></svg>
     <div class="wrap">
-      <div class="steps-head-row section-head reveal">
-        <div>
+      <div class="steps-head reveal">
+        <div class="section-head">
           <p class="eyebrow">Praxisspektrum</p>
           <h2>Inhalt und Umfang der tauchsportärztlichen Untersuchung</h2>
           <p class="lede">Nach den Richtlinien der GTÜM umfasst die Untersuchung:</p>
         </div>
         <div class="steps-controls">
-          <button type="button" id="stepPrev" aria-label="Vorherige Untersuchung anzeigen">‹</button>
-          <button type="button" id="stepNext" aria-label="Nächste Untersuchung anzeigen">›</button>
+          <button type="button" id="stepPrev" aria-controls="stepsStrip" aria-label="Vorherige Untersuchung anzeigen" aria-disabled="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none"><path d="m14.5 6-6 6 6 6"/></svg></button>
+          <button type="button" id="stepNext" aria-controls="stepsStrip" aria-label="Nächste Untersuchung anzeigen" aria-disabled="false"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none"><path d="m9.5 6 6 6-6 6"/></svg></button>
         </div>
       </div>
 
       <p class="scroll-hint reveal">Zur Seite wischen oder scrollen →</p>
-      <ul class="steps-strip reveal" id="stepsStrip">
-        <li class="step-card"><span class="num">01</span><p>Erhebung der Krankengeschichte</p></li>
-        <li class="step-card"><span class="num">02</span><p>Eingehende körperliche Untersuchung</p></li>
-        <li class="step-card"><span class="num">03</span><p>EKG in Ruhe und gegebenenfalls unter Belastung</p></li>
-        <li class="step-card"><span class="num">04</span><p>Lungenfunktionsprüfung</p></li>
-        <li class="step-card"><span class="num">05</span><p>Beantwortung persönlicher Fragen und Anliegen</p></li>
+      <ul class="steps-strip reveal" id="stepsStrip" role="list" tabindex="0" aria-label="Bestandteile der Untersuchung, seitlich scrollbar">
+        <li class="step"><div class="step-card"><div class="step-top"><span class="num">01</span><span class="step-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4.5" width="14" height="17" rx="2"/><path d="M9 3h6v3H9ZM9 11h6M9 14.5h6M9 18h3"/></svg></span></div><p>Erhebung der Krankengeschichte</p></div></li>
+        <li class="step"><div class="step-card"><div class="step-top"><span class="num">02</span><span class="step-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v6a4 4 0 0 0 8 0V3"/><path d="M5 3h2M13 3h2"/><path d="M10 13v1.5a4.5 4.5 0 0 0 9 0V12"/><circle cx="19" cy="10" r="2"/></svg></span></div><p>Eingehende körperliche Untersuchung</p></div></li>
+        <li class="step"><div class="step-card"><div class="step-top"><span class="num">03</span><span class="step-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-5 3.5 10 2.5-7 1.5 2H21"/></svg></span></div><p>EKG in Ruhe und gegebenenfalls unter Belastung</p></div></li>
+        <li class="step"><div class="step-card"><div class="step-top"><span class="num">04</span><span class="step-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v8m0 0-2.5 2.5M12 12l2.5 2.5"/><path d="M10.5 8C8.5 7.5 6 9.5 5 13.5s-.8 6.5 1.2 7c2 .5 3.8-.8 4.5-3.2Z"/><path d="M13.5 8c2-.5 4.5 1.5 5.5 5.5s.8 6.5-1.2 7c-2 .5-3.8-.8-4.5-3.2Z"/></svg></span></div><p>Lungenfunktionsprüfung</p></div></li>
+        <li class="step"><div class="step-card"><div class="step-top"><span class="num">05</span><span class="step-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-7l-5 4v-4H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/><path d="M8 10h8M8 13h5"/></svg></span></div><p>Beantwortung persönlicher Fragen und Anliegen</p></div></li>
       </ul>
-      <p class="exam-note reveal">
-        Termine und Untersuchungsorte legen wir gemeinsam und flexibel fest –
-        sprechen Sie mich einfach an.
+      <p class="callout exam-note reveal">
+        <svg class="callout-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4M8 14h2m3 0h3M8 17h2"/></svg>
+        <span>Termine und Untersuchungsorte legen wir gemeinsam und flexibel fest –
+        sprechen Sie mich einfach an.</span>
       </p>
     </div>
   </section>
 
   <!-- KONTAKT -->
-  <section id="kontakt" class="contact-band">
+  <section id="kontakt" class="section contact">
+    <svg class="contact-wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0H1440V40C1200 110 960 20 720 62S240 100 0 36Z" fill="currentColor"/></svg>
     <div class="wrap">
       <div class="section-head reveal">
         <p class="eyebrow">Kontakt</p>
         <h2>So können Sie mich im Raum Karlsruhe&ndash;Speyer&ndash;Ludwigshafen erreichen</h2>
       </div>
 
-      <div class="contact-grid reveal">
-        <div class="tile">
-          <span class="label">E-Mail</span>
-          <a href="mailto:docdeep007@t-online.de">docdeep007@t-online.de</a>
+      <div class="contact-grid">
+        <div class="tile reveal" style="--i:0">
+          <span class="label"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg><span>E-Mail</span></span>
+          <a class="tile-mail" href="mailto:docdeep007@t-online.de">docdeep007@t-online.de</a>
         </div>
-        <div class="tile">
-          <span class="label">Telefon</span>
-          <a href="tel:+491726816671" class="mono">0172&nbsp;6816671</a>
+        <div class="tile reveal" style="--i:1">
+          <span class="label"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h3.5l1.8 4.5-2.2 1.4a11 11 0 0 0 5.5 5.5l1.4-2.2L20 15v3.5a1.5 1.5 0 0 1-1.6 1.5C10.8 19.5 4.5 13.2 4 5.6A1.5 1.5 0 0 1 5 4Z"/></svg><span>Telefon</span></span>
+          <a class="tile-tel" href="tel:+491726816671">0172&nbsp;6816671</a>
         </div>
-        <div class="tile">
-          <span class="label">Einzugsgebiet</span>
-          <span>Karlsruhe · Speyer · Mannheim · Ludwigshafen</span>
+        <div class="tile reveal" style="--i:2">
+          <span class="label"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z"/><circle cx="12" cy="10" r="2.3"/></svg><span>Einzugsgebiet</span></span>
+          <span class="value">Karlsruhe · Speyer · Mannheim · Ludwigshafen</span>
         </div>
-        <div class="tile note">
+        <div class="tile note reveal" style="--i:3">
           <strong>Flexible Terminvereinbarung</strong>
           <p>
             Termine und Untersuchungsorte legen wir gemeinsam und flexibel fest –
@@ -722,15 +323,18 @@
           </p>
         </div>
       </div>
-      <a class="cta" href="mailto:docdeep007@t-online.de">Termin anfragen</a>
+      <a class="btn btn-primary reveal" href="mailto:docdeep007@t-online.de">Termin anfragen</a>
     </div>
   </section>
 
 </main>
 
-<footer class="site">
+<footer class="site-footer">
   <div class="wrap footer-row">
-    <p>&copy; <span id="year"></span> Dr. med. Patrick M. Kern &middot; Taucherarzt</p>
+    <div class="footer-brand">
+      <img src="logo.png" alt="" width="40" height="40" loading="lazy" decoding="async">
+      <p>&copy; <span id="year"></span> Dr. med. Patrick M. Kern &middot; Taucherarzt</p>
+    </div>
     <div class="footer-links">
       <a href="#top">Startseite</a>
       <a href="#praxisspektrum">Praxisspektrum</a>
@@ -740,88 +344,14 @@
     </div>
   </div>
 </footer>
-</div>
 
 <!-- Mobile-only quick-action bar -->
 <div class="mobile-bar" role="navigation" aria-label="Schnellkontakt">
-  <a class="call" href="tel:+491726816671">Anrufen</a>
-  <a class="book" href="mailto:docdeep007@t-online.de">Termin anfragen</a>
+  <a class="call" href="tel:+491726816671"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h3.5l1.8 4.5-2.2 1.4a11 11 0 0 0 5.5 5.5l1.4-2.2L20 15v3.5a1.5 1.5 0 0 1-1.6 1.5C10.8 19.5 4.5 13.2 4 5.6A1.5 1.5 0 0 1 5 4Z"/></svg><span>Anrufen</span></a>
+  <a class="book" href="mailto:docdeep007@t-online.de"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg><span>Termin anfragen</span></a>
 </div>
 
-<script>
-  (function(){
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    var toggle = document.getElementById('menuToggle');
-    var nav = document.getElementById('primaryNav');
-
-    function closeNav(){
-      nav.classList.remove('open');
-      toggle.classList.remove('open');
-      toggle.setAttribute('aria-expanded', 'false');
-    }
-    function openNav(){
-      nav.classList.add('open');
-      toggle.classList.add('open');
-      toggle.setAttribute('aria-expanded', 'true');
-      var first = nav.querySelector('a');
-      if (first) first.focus();
-    }
-    toggle.addEventListener('click', function(){
-      if (nav.classList.contains('open')){ closeNav(); toggle.focus(); }
-      else { openNav(); }
-    });
-    nav.querySelectorAll('a').forEach(function(a){
-      a.addEventListener('click', function(){ closeNav(); });
-    });
-    document.addEventListener('keydown', function(e){
-      if (e.key === 'Escape' && nav.classList.contains('open')){ closeNav(); toggle.focus(); }
-    });
-
-    var strip = document.getElementById('stepsStrip');
-    var prevBtn = document.getElementById('stepPrev');
-    var nextBtn = document.getElementById('stepNext');
-    if (strip && prevBtn && nextBtn){
-      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      function scrollStrip(dir){
-        var card = strip.querySelector('.step-card');
-        var amount = card ? card.getBoundingClientRect().width + 20 : 260;
-        strip.scrollBy({ left: dir * amount, behavior: reduceMotion ? 'auto' : 'smooth' });
-      }
-      prevBtn.addEventListener('click', function(){ scrollStrip(-1); });
-      nextBtn.addEventListener('click', function(){ scrollStrip(1); });
-    }
-
-    var sections = document.querySelectorAll('#top, #qualifikation, #praxisspektrum, #kontakt');
-    var navLinks = document.querySelectorAll('.rail-nav a[href^="#"]');
-    function setActive(id){
-      navLinks.forEach(function(a){
-        var match = a.getAttribute('href') === '#' + id;
-        if (match) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
-      });
-    }
-
-    if ('IntersectionObserver' in window){
-      var revealEls = document.querySelectorAll('.reveal');
-      revealEls.forEach(function(el){ el.classList.add('is-hidden'); });
-      var revealObserver = new IntersectionObserver(function(entries){
-        entries.forEach(function(entry){
-          if (entry.isIntersecting){
-            entry.target.classList.remove('is-hidden');
-            revealObserver.unobserve(entry.target);
-          }
-        });
-      }, {threshold:.12});
-      revealEls.forEach(function(el){ revealObserver.observe(el); });
-
-      var navObserver = new IntersectionObserver(function(entries){
-        entries.forEach(function(entry){
-          if (entry.isIntersecting) setActive(entry.target.id);
-        });
-      }, {rootMargin:'-45% 0px -50% 0px'});
-      sections.forEach(function(s){ navObserver.observe(s); });
-    }
-  })();
-</script>
+<script src="assets/js/site.js" defer></script>
+<script src="assets/js/ocean.js" defer></script>
 </body>
 </html>
